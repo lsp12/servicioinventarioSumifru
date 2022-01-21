@@ -25,7 +25,7 @@ console.log("JONATHAN\\SQLEXPRESS");
     TypeOrmModule.forRoot({
       type: 'mssql',
       host: 'JONATHAN\\SQLEXPRESS',
-      port: 58751,
+      port: 1433,
       username: 'sa',
       password: 'root',
       database: 'servicioInventario',
