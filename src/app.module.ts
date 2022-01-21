@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -9,6 +10,8 @@ import { MaintenanceModule } from './maintenance/maintenance.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { ResponsableModule } from './responsable/responsable.module';
 import { ValidationPipe } from './validation.pipe';
+import { TypeOrmModule } from '@nestjs/typeorm';
+console.log("JONATHAN\\SQLEXPRESS");
 
 @Module({
   imports: [
@@ -19,8 +22,18 @@ import { ValidationPipe } from './validation.pipe';
     MaintenanceModule,
     InventoryModule,
     ResponsableModule,
+    TypeOrmModule.forRoot({
+      type: 'mssql',
+      host: 'JONATHAN\\SQLEXPRESS',
+      port: 58751,
+      username: 'sa',
+      password: 'root',
+      database: 'servicioInventario',
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: true
+    })
   ],
   controllers: [AppController],
-  providers: [AppService, ValidationPipe],
+  providers: [AppService, ValidationPipe]
 })
 export class AppModule {}
