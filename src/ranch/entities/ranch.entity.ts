@@ -1,13 +1,10 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class User {
+export class Ranch {
   @PrimaryGeneratedColumn()
-  idUsuario: number;
-
-  @Column({ array: true })
-  nombre: string;
+  idHaciendad: number;
 
   @Column()
-  role: string;
+  nombre: string;
 }

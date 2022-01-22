@@ -11,7 +11,8 @@ import { InventoryModule } from './inventory/inventory.module';
 import { ResponsableModule } from './responsable/responsable.module';
 import { ValidationPipe } from './validation.pipe';
 import { TypeOrmModule } from '@nestjs/typeorm';
-console.log("JONATHAN\\SQLEXPRESS");
+import { getConnectionOptions } from 'typeorm';
+import { RanchModule } from './ranch/ranch.module';
 
 @Module({
   imports: [
@@ -22,18 +23,15 @@ console.log("JONATHAN\\SQLEXPRESS");
     MaintenanceModule,
     InventoryModule,
     ResponsableModule,
-    TypeOrmModule.forRoot({
-      type: 'mssql',
-      host: 'JONATHAN\\SQLEXPRESS',
-      port: 1433,
-      username: 'sa',
-      password: 'root',
-      database: 'servicioInventario',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true
-    })
+    TypeOrmModule.forRootAsync({
+      useFactory: async () =>
+        Object.assign(await getConnectionOptions(), {
+          autoLoadEntities: true,
+        }),
+    }),
+    RanchModule
   ],
   controllers: [AppController],
   providers: [AppService, ValidationPipe]
 })
-export class AppModule {}
+export class AppModule { }
