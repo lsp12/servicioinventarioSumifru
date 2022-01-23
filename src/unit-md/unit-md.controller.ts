@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete
+} from '@nestjs/common';
 import { UnitMdService } from './unit-md.service';
 import { CreateUnitMdDto } from './dto/create-unit-md.dto';
 import { UpdateUnitMdDto } from './dto/update-unit-md.dto';
@@ -10,6 +18,12 @@ export class UnitMdController {
   @Post()
   create(@Body() createUnitMdDto: CreateUnitMdDto) {
     return this.unitMdService.create(createUnitMdDto);
+  }
+
+  @Post('/many')
+  createMany(@Body() createUnitMdDto: CreateUnitMdDto[]) {
+    console.log(createUnitMdDto);
+    /* return this.unitMdService.createMany(createUnitMdDto); */
   }
 
   @Get()
@@ -30,5 +44,10 @@ export class UnitMdController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.unitMdService.remove(+id);
+  }
+
+  @Post('/delete')
+  removeMany(@Body() id: number) {
+    return this.unitMdService.remove(id);
   }
 }

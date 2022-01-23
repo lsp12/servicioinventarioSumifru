@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete
+} from '@nestjs/common';
 import { RanchService } from './ranch.service';
 import { CreateRanchDto } from './dto/create-ranch.dto';
 import { UpdateRanchDto } from './dto/update-ranch.dto';

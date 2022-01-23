@@ -23,13 +23,14 @@ import { RanchModule } from './ranch/ranch.module';
     MaintenanceModule,
     InventoryModule,
     ResponsableModule,
+    RanchModule,
     TypeOrmModule.forRootAsync({
       useFactory: async () =>
         Object.assign(await getConnectionOptions(), {
           autoLoadEntities: true,
         }),
     }),
-    RanchModule
+    
   ],
   controllers: [AppController],
   providers: [AppService, ValidationPipe]

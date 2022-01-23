@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Inventory } from 'src/inventory/entities/inventory.entity';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn
+} from 'typeorm';
 
 @Entity()
 export class Category {
@@ -7,4 +14,9 @@ export class Category {
 
   @Column()
   nombre: string;
+
+  @OneToMany(() => Inventory, (inventory) => inventory.category, {
+    eager: true
+  })
+  inventories: Inventory[];
 }

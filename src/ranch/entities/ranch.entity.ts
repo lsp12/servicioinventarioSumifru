@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Inventory } from 'src/inventory/entities/inventory.entity';
+import { Responsable } from 'src/responsable/entities/responsable.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Ranch {
@@ -7,4 +9,12 @@ export class Ranch {
 
   @Column()
   nombre: string;
+
+  @Column()
+  condigoHacienda: string;
+
+  @OneToMany(() => Responsable, (responsable) => responsable.ranch, {
+    eager: true
+  })
+  responsables: Responsable[];
 }
