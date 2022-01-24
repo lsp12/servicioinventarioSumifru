@@ -5,8 +5,11 @@ export class User {
   @PrimaryGeneratedColumn()
   idUsuario: number;
 
-  @Column({ array: true })
+  @Column()
   nombre: string;
+
+  @Column({ default: false })
+  contraseña: string;
 
   @Column()
   role: string;
