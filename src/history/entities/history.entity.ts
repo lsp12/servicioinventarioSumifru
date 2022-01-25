@@ -4,45 +4,31 @@ import { User } from 'src/users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Responsable {
+export class History {
   @PrimaryGeneratedColumn()
-  idResponsable: number;
+  idHistorial: number;
 
   @Column()
-  nombre: string;
+  fechaMovimiento: Date;
 
-  @Column({ nullable: true })
-  fechaRetiro: Date;
-
-  @Column()
-  fechaIngreso: Date;
-
-  @Column()
-  justificacion: string;
-
-  @Column()
-  estado: string;
-
-  //muchos a uno
-
-  @ManyToOne(() => Ranch, (ranch) => ranch.responsables, {
+  @ManyToOne(() => Inventory, (inventory) => inventory.histories, {
     cascade: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
   })
-  ranch: Ranch;
+  inventario: Inventory;
 
-  @ManyToOne(() => Inventory, (inventory) => inventory.responsables, {
-    cascade: true,
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-  })
-  inventory: Inventory;
-
-  @ManyToOne(() => User, (user) => user.responsables, {
+  @ManyToOne(() => User, (user) => user.histories, {
     cascade: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
   })
   user: User;
+
+  @ManyToOne(() => Ranch, (ranch) => ranch.histories, {
+    cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
+  ranch: Ranch;
 }

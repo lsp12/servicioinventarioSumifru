@@ -1,4 +1,4 @@
-import { Inventory } from 'src/inventory/entities/inventory.entity';
+import { History } from 'src/history/entities/history.entity';
 import { Responsable } from 'src/responsable/entities/responsable.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -17,4 +17,9 @@ export class Ranch {
     eager: true
   })
   responsables: Responsable[];
+
+  @OneToMany(() => History, (History) => History.ranch, {
+    eager: true
+  })
+  histories: History[];
 }

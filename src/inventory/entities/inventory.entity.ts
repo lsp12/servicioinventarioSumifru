@@ -59,4 +59,9 @@ export class Inventory {
     eager: true
   })
   maintenances: Maintenance[];
+
+  @OneToMany(() => Responsable, (Responsable) => Responsable.inventory, {
+    eager: true
+  })
+  histories: History[];
 }

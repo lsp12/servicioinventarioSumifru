@@ -1,3 +1,4 @@
+import { History } from 'src/history/entities/history.entity';
 import { Responsable } from 'src/responsable/entities/responsable.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -9,6 +10,9 @@ export class User {
   @Column()
   nombre: string;
 
+  @Column({ default: false })
+  contraseña: string;
+
   @Column()
   role: string;
 
@@ -16,4 +20,9 @@ export class User {
     eager: true
   })
   responsables: Responsable[];
+
+  @OneToMany(() => History, (History) => History.user, {
+    eager: true
+  })
+  histories: History[];
 }

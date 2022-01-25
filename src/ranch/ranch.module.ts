@@ -7,6 +7,7 @@ import { Ranch } from './entities/ranch.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Ranch])],
   controllers: [RanchController],
-  providers: [RanchService]
+  providers: [RanchService],
+  exports: [RanchService]
 })
 export class RanchModule {}

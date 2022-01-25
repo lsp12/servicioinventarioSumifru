@@ -6,9 +6,6 @@ import { Inventory } from './entities/inventory.entity';
 import { UnitMdModule } from 'src/unit-md/unit-md.module';
 import { ProviderModule } from 'src/provider/provider.module';
 import { CategoryModule } from 'src/category/category.module';
-import { UnitMd } from 'src/unit-md/entities/unit-md.entity';
-import { Provider } from 'src/provider/entities/provider.entity';
-import { Category } from 'src/category/entities/category.entity';
 
 @Module({
   imports: [
@@ -18,6 +15,7 @@ import { Category } from 'src/category/entities/category.entity';
     CategoryModule
   ],
   controllers: [InventoryController],
-  providers: [InventoryService]
+  providers: [InventoryService],
+  exports: [InventoryService]
 })
 export class InventoryModule {}

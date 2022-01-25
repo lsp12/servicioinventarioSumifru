@@ -24,13 +24,12 @@ export class RanchService {
 
   async findOne(id: number) {
     const ranch = await this.ranchsRepository.findOne(id);
-    if (!ranch) return [];
+    if (!ranch) throw new BadRequestException('No existe el ranch');
     return ranch;
   }
 
   async findByNombre(nombre: string) {
     const ranch = await this.ranchsRepository.find({ nombre });
-    if (!ranch) return [];
     return ranch;
   }
 
