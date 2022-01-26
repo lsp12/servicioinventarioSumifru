@@ -9,8 +9,6 @@ export class Category {
   @Column()
   nombre: string;
 
-  @OneToMany(() => Inventory, (inventory) => inventory.category, {
-    eager: true
-  })
+  @OneToMany(() => Inventory, (inventory) => inventory.category)
   inventories: Inventory[];
 }

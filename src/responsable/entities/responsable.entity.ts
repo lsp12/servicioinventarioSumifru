@@ -30,19 +30,19 @@ export class Responsable {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
   })
-  ranch: Ranch;
+  ranch: number;
 
   @ManyToOne(() => Inventory, (inventory) => inventory.responsables, {
     cascade: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
   })
-  inventory: Inventory;
+  inventory: number;
 
   @ManyToOne(() => User, (user) => user.responsables, {
     cascade: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
   })
-  user: User;
+  user: number;
 }

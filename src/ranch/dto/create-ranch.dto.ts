@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class CreateRanchDto {
   @IsString()
@@ -6,4 +6,7 @@ export class CreateRanchDto {
 
   @IsString()
   condigoHacienda: string;
+
+  @IsString()
+  zona: string;
 }

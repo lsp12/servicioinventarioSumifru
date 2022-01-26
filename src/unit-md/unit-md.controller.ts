@@ -11,7 +11,7 @@ import { UnitMdService } from './unit-md.service';
 import { CreateUnitMdDto } from './dto/create-unit-md.dto';
 import { UpdateUnitMdDto } from './dto/update-unit-md.dto';
 
-@Controller('unit-md')
+@Controller('unid')
 export class UnitMdController {
   constructor(private readonly unitMdService: UnitMdService) {}
 

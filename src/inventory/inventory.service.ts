@@ -23,13 +23,13 @@ export class InventoryService {
     const unitMdEntity = await this.unitMdService.findOne(unitMd);
     const providerEntity = await this.providerService.findOne(provider);
     const categoryEntity = await this.categoryService.findOne(category);
-    const inventory = this.inventoryRepository.create({
+    /* const inventory = this.inventoryRepository.create({
       ...createInventoryDto,
       unitMd: unitMdEntity,
       provider: providerEntity,
       category: categoryEntity
-    });
-    return this.inventoryRepository.save(inventory);
+    }); */
+    return this.inventoryRepository.save(createInventoryDto);
   }
 
   async findAll() {
@@ -58,13 +58,13 @@ export class InventoryService {
     const unitMdEntity = await this.unitMdService.findOne(unitMd);
     const providerEntity = await this.providerService.findOne(provider);
     const categoryEntity = await this.categoryService.findOne(category);
-    const inventory = this.inventoryRepository.create({
+    /* const inventory = this.inventoryRepository.create({
       ...updateInventoryDto,
       unitMd: unitMdEntity,
       provider: providerEntity,
-      category: categoryEntity
-    });
-    await this.inventoryRepository.update(id, inventory);
+      category: categoryEntity 
+    }); */
+    await this.inventoryRepository.update(id, updateInventoryDto);
 
     return 'Inventario actualizado';
   }

@@ -9,8 +9,6 @@ export class UnitMd {
   @Column()
   tipoUnida: string;
 
-  @OneToMany(() => Inventory, (Inventory) => Inventory.unitMd, {
-    eager: true
-  })
+  @OneToMany(() => Inventory, (Inventory) => Inventory.unitMd)
   inventories: Inventory[];
 }

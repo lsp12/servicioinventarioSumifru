@@ -5,7 +5,7 @@
     "port": 3306, 
     "username": "root", 
     "password": "",
-    "database": "inventario",
+    "database": "inventariocalida",
     "synchronize": true,
     "logging": true,
     "entities": [

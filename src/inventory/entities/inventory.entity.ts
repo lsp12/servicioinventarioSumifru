@@ -32,36 +32,30 @@ export class Inventory {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
   })
-  category: Category;
+  category: number;
 
   @ManyToOne(() => UnitMd, (UnitMd) => UnitMd.inventories, {
     cascade: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
   })
-  unitMd: UnitMd;
+  unitMd: number;
 
   @ManyToOne(() => Provider, (Provider) => Provider.inventories, {
     cascade: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
   })
-  provider: Provider;
+  provider: number;
 
   //uno a muchos
 
-  @OneToMany(() => Responsable, (Responsable) => Responsable.inventory, {
-    eager: true
-  })
+  @OneToMany(() => Responsable, (Responsable) => Responsable.inventory)
   responsables: Responsable[];
 
-  @OneToMany(() => Maintenance, (Maintenance) => Maintenance.inventory, {
-    eager: true
-  })
+  @OneToMany(() => Maintenance, (Maintenance) => Maintenance.inventory)
   maintenances: Maintenance[];
 
-  @OneToMany(() => Responsable, (Responsable) => Responsable.inventory, {
-    eager: true
-  })
+  @OneToMany(() => Responsable, (Responsable) => Responsable.inventory)
   histories: History[];
 }

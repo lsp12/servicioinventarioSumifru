@@ -15,8 +15,9 @@ export class Provider {
   @Column({ default: false })
   telefono: string;
 
-  @OneToMany(() => Inventory, (inventory) => inventory.provider, {
-    eager: true
-  })
+  @Column({ default: false })
+  email: string;
+
+  @OneToMany(() => Inventory, (inventory) => inventory.provider)
   inventories: Inventory[];
 }

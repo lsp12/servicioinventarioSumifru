@@ -16,13 +16,9 @@ export class User {
   @Column()
   role: string;
 
-  @OneToMany(() => Responsable, (Responsable) => Responsable.user, {
-    eager: true
-  })
+  @OneToMany(() => Responsable, (Responsable) => Responsable.user)
   responsables: Responsable[];
 
-  @OneToMany(() => History, (History) => History.user, {
-    eager: true
-  })
+  @OneToMany(() => History, (History) => History.user)
   histories: History[];
 }

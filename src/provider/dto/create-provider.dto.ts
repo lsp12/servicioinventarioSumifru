@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class CreateProviderDto {
   @IsString()
@@ -9,4 +9,7 @@ export class CreateProviderDto {
 
   @IsString()
   telefono: string;
+
+  @IsOptional()
+  email: string;
 }

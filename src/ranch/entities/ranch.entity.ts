@@ -13,13 +13,12 @@ export class Ranch {
   @Column()
   condigoHacienda: string;
 
-  @OneToMany(() => Responsable, (responsable) => responsable.ranch, {
-    eager: true
-  })
+  @Column()
+  zona: string;
+
+  @OneToMany(() => Responsable, (responsable) => responsable.ranch)
   responsables: Responsable[];
 
-  @OneToMany(() => History, (History) => History.ranch, {
-    eager: true
-  })
+  @OneToMany(() => History, (History) => History.ranch)
   histories: History[];
 }
