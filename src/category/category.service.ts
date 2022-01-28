@@ -1,26 +1,55 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { Category } from './entities/category.entity';
 
 @Injectable()
 export class CategoryService {
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+  constructor(
+    @InjectRepository(Category)
+    private categoryRepository: Repository<Category>
+  ) {}
+
+  async create(createCategoryDto: CreateCategoryDto) {
+    const exist = await this.categoryRepository.findOne({
+      nombre: createCategoryDto.nombre
+    });
+    if (exist) throw new BadRequestException('La categoria ya existe');
+    const category = await this.categoryRepository.create(createCategoryDto);
+    return await this.categoryRepository.save(category);
   }
 
-  findAll() {
-    return `This action returns all category`;
+  async findAll() {
+    const categories = await this.categoryRepository.find();
+    if (!categories) return [];
+    return categories;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async findOne(id: number) {
+    const category = await this.categoryRepository.findOne(id);
+    if (!category) throw new BadRequestException('No existe la categoria');
+    return category;
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async findByNombre(nombre: string) {
+    const category = await this.categoryRepository.find({ nombre });
+    if (!category) return [];
+    return category;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
+    const category = await this.categoryRepository.findOne(id);
+    if (!category) throw new BadRequestException('No existe la categoria');
+    await this.categoryRepository.update(id, updateCategoryDto);
+    return 'Categoria actualizada';
+  }
+
+  async remove(id: number) {
+    const category = await this.categoryRepository.findOne(id);
+    if (!category) throw new BadRequestException('No existe la categoria');
+    await this.categoryRepository.remove(category);
+    return 'Categoria eliminada';
   }
 }

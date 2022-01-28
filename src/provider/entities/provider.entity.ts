@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Inventory } from 'src/inventory/entities/inventory.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Provider {
@@ -7,4 +8,16 @@ export class Provider {
 
   @Column()
   nombre: string;
+
+  @Column({ default: false })
+  direccion: string;
+
+  @Column({ default: false })
+  telefono: string;
+
+  @Column({ default: false })
+  email: string;
+
+  @OneToMany(() => Inventory, (inventory) => inventory.provider)
+  inventories: Inventory[];
 }

@@ -13,6 +13,7 @@ import { ValidationPipe } from './validation.pipe';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getConnectionOptions } from 'typeorm';
 import { RanchModule } from './ranch/ranch.module';
+import { HistoryModule } from './history/history.module';
 
 @Module({
   imports: [
@@ -23,13 +24,15 @@ import { RanchModule } from './ranch/ranch.module';
     MaintenanceModule,
     InventoryModule,
     ResponsableModule,
+    RanchModule,
     TypeOrmModule.forRootAsync({
       useFactory: async () =>
         Object.assign(await getConnectionOptions(), {
           autoLoadEntities: true,
         }),
     }),
-    RanchModule
+    HistoryModule,
+    
   ],
   controllers: [AppController],
   providers: [AppService, ValidationPipe]

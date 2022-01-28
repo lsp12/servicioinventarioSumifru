@@ -1,26 +1,54 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateProviderDto } from './dto/create-provider.dto';
 import { UpdateProviderDto } from './dto/update-provider.dto';
+import { Provider } from './entities/provider.entity';
 
 @Injectable()
 export class ProviderService {
-  create(createProviderDto: CreateProviderDto) {
-    return 'This action adds a new provider';
+  constructor(
+    @InjectRepository(Provider)
+    private providersRepository: Repository<Provider>
+  ) {}
+  async create(createProviderDto: CreateProviderDto) {
+    const exist = await this.providersRepository.findOne({
+      nombre: createProviderDto.nombre
+    });
+    if (exist) throw new BadRequestException('El proveedor ya existe');
+    const provider = await this.providersRepository.create(createProviderDto);
+    return await this.providersRepository.save(provider);
   }
 
-  findAll() {
-    return `This action returns all provider`;
+  async findAll() {
+    const providers = await this.providersRepository.find();
+    if (!providers) return [];
+    return providers;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} provider`;
+  async findOne(id: number) {
+    const provider = await this.providersRepository.findOne(id);
+    if (!provider) throw new BadRequestException('No existe el proveedor');
+    return provider;
   }
 
-  update(id: number, updateProviderDto: UpdateProviderDto) {
-    return `This action updates a #${id} provider`;
+  async findByNombre(nombre: string) {
+    const provider = await this.providersRepository.find({ nombre });
+    if (!provider) return [];
+    return provider;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} provider`;
+  async update(id: number, updateProviderDto: UpdateProviderDto) {
+    const provider = await this.providersRepository.findOne(id);
+    if (!provider) throw new BadRequestException('No existe el proveedor');
+    await this.providersRepository.update(id, updateProviderDto);
+    return 'Proveedor actualizado';
+  }
+
+  async remove(id: number) {
+    const provider = await this.providersRepository.findOne(id);
+    if (!provider) throw new BadRequestException('No existe el proveedor');
+    await this.providersRepository.remove(provider);
+    return 'Proveedor eliminado';
   }
 }

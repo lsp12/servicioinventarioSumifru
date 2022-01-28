@@ -1,11 +1,11 @@
 {
     "name": "default",
-    "type": "mssql",
+    "type": "mysql",
     "host": "localhost",
-    "port": 1433,
-    "username": "sa",
-    "password": "root",
-    "database": "servicioInventario",
+    "port": 3306, 
+    "username": "root", 
+    "password": "",
+    "database": "inventariocalida",
     "synchronize": true,
     "logging": true,
     "entities": [

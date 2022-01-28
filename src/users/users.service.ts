@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -23,15 +23,28 @@ export class UsersService {
     return users;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    const user = await this.usersRepository.findOne(id);
+    return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async findByNombre(nombre: string) {
+    return await this.usersRepository.find({ nombre });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    const user = await this.usersRepository.findOne(id);
+    if (user) {
+      await this.usersRepository.update(id, updateUserDto);
+      return 'User updated successfully';
+    } else throw new BadRequestException('User not found');
+  }
+
+  async remove(id: number) {
+    const user = await this.usersRepository.findOne(id);
+    if (user) {
+      await this.usersRepository.remove(user);
+      return 'User removed successfully';
+    } else throw new BadRequestException('User not found');
   }
 }
