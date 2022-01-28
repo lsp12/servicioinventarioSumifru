@@ -1,24 +1,24 @@
 import { Inventory } from 'src/inventory/entities/inventory.entity';
 import { Ranch } from 'src/ranch/entities/ranch.entity';
 import { User } from 'src/users/entities/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn
+} from 'typeorm';
 
 @Entity()
 export class Responsable {
   @PrimaryGeneratedColumn()
   idResponsable: number;
 
-  @Column()
-  nombre: string;
-
-  @Column({ nullable: true })
-  fechaRetiro: Date;
-
-  @Column()
+  @CreateDateColumn({ type: 'timestamp' })
   fechaIngreso: Date;
 
   @Column()
-  justificacion: string;
+  reporte: string;
 
   @Column()
   estado: string;

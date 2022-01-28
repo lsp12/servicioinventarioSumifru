@@ -22,9 +22,6 @@ export class Inventory {
   @Column()
   nombreProducto: string;
 
-  @Column()
-  cantidad: number;
-
   //muchos a uno
 
   @ManyToOne(() => Category, (category) => category.inventories, {

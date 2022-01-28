@@ -8,9 +8,6 @@ export class CreateInventoryDto {
   nombreProducto: string;
 
   @IsNumber()
-  cantidad: number;
-
-  @IsNumber()
   category: number;
 
   @IsNumber()
