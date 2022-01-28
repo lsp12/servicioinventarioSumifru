@@ -3,9 +3,9 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete
+  Delete,
+  Put
 } from '@nestjs/common';
 import { ProviderService } from './provider.service';
 import { CreateProviderDto } from './dto/create-provider.dto';
@@ -35,7 +35,7 @@ export class ProviderController {
     return this.providerService.findByNombre(nombre);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id') id: string,
     @Body() updateProviderDto: UpdateProviderDto

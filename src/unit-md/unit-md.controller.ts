@@ -3,9 +3,9 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete
+  Delete,
+  Put
 } from '@nestjs/common';
 import { UnitMdService } from './unit-md.service';
 import { CreateUnitMdDto } from './dto/create-unit-md.dto';
@@ -36,7 +36,7 @@ export class UnitMdController {
     return this.unitMdService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateUnitMdDto: UpdateUnitMdDto) {
     return this.unitMdService.update(+id, updateUnitMdDto);
   }

@@ -3,9 +3,9 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete
+  Delete,
+  Put
 } from '@nestjs/common';
 import { RanchService } from './ranch.service';
 import { CreateRanchDto } from './dto/create-ranch.dto';
@@ -30,7 +30,7 @@ export class RanchController {
     return this.ranchService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateRanchDto: UpdateRanchDto) {
     return this.ranchService.update(+id, updateRanchDto);
   }

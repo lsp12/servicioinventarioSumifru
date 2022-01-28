@@ -3,9 +3,9 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete
+  Delete,
+  Put
 } from '@nestjs/common';
 import { ResponsableService } from './responsable.service';
 import { CreateResponsableDto } from './dto/create-responsable.dto';
@@ -30,7 +30,7 @@ export class ResponsableController {
     return this.responsableService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id') id: string,
     @Body() updateResponsableDto: UpdateResponsableDto
