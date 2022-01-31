@@ -19,10 +19,9 @@ export class InventoryService {
   ) {}
 
   async create(createInventoryDto: CreateInventoryDto) {
-    const { unitMd, provider, category } = createInventoryDto;
+    const { unitMd, provider } = createInventoryDto;
     const unitMdEntity = await this.unitMdService.findOne(unitMd);
     const providerEntity = await this.providerService.findOne(provider);
-    const categoryEntity = await this.categoryService.findOne(category);
     /* const inventory = this.inventoryRepository.create({
       ...createInventoryDto,
       unitMd: unitMdEntity,
@@ -51,19 +50,7 @@ export class InventoryService {
 
   async update(id: number, updateInventoryDto: UpdateInventoryDto) {
     const exist = await this.inventoryRepository.findOne(id);
-
     if (!exist) throw new BadRequestException('No existe el inventario');
-
-    const { unitMd, provider, category } = updateInventoryDto;
-    const unitMdEntity = await this.unitMdService.findOne(unitMd);
-    const providerEntity = await this.providerService.findOne(provider);
-    const categoryEntity = await this.categoryService.findOne(category);
-    /* const inventory = this.inventoryRepository.create({
-      ...updateInventoryDto,
-      unitMd: unitMdEntity,
-      provider: providerEntity,
-      category: categoryEntity 
-    }); */
     await this.inventoryRepository.update(id, updateInventoryDto);
 
     return 'Inventario actualizado';

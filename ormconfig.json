@@ -7,7 +7,6 @@
     "password": "",
     "database": "inventariocalida",
     "synchronize": true,
-    "logging": true,
     "entities": [
         "src/entity/**/*.ts"
     ],
