@@ -25,6 +25,11 @@ export class InventoryController {
     return this.inventoryService.findAll();
   }
 
+  @Get('/findByCategory/:category')
+  findByCategory(@Param('category') category: string) {
+    return this.inventoryService.findByCategory(+category);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.inventoryService.findOne(+id);

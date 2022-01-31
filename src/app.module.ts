@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CategoryModule } from './category/category.module';
@@ -14,6 +14,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { getConnectionOptions } from 'typeorm';
 import { RanchModule } from './ranch/ranch.module';
 import { HistoryModule } from './history/history.module';
+import { LoggerMiddleware } from './middleware/loggerMiddleware';
+import { RolesGuard } from './guards/roles.guard';
+import { APP_GUARD } from '@nestjs/core';
+import { UsersController } from './users/users.controller';
 
 @Module({
   imports: [
@@ -35,6 +39,16 @@ import { HistoryModule } from './history/history.module';
     
   ],
   controllers: [AppController],
-  providers: [AppService, ValidationPipe]
+  providers: [AppService, ValidationPipe,{provide: APP_GUARD,
+    useClass: RolesGuard,}]
 })
-export class AppModule { }
+export class AppModule {
+  configure(consume: MiddlewareConsumer) {
+    consume
+      .apply(LoggerMiddleware)
+      .exclude(
+       
+      )
+      .forRoutes();
+  }
+ }

@@ -20,15 +20,15 @@ export class InventoryService {
 
   async create(createInventoryDto: CreateInventoryDto) {
     const { unitMd, provider } = createInventoryDto;
-    const unitMdEntity = await this.unitMdService.findOne(unitMd);
-    const providerEntity = await this.providerService.findOne(provider);
-    /* const inventory = this.inventoryRepository.create({
-      ...createInventoryDto,
-      unitMd: unitMdEntity,
-      provider: providerEntity,
-      category: categoryEntity
-    }); */
-    return this.inventoryRepository.save(createInventoryDto);
+    const inventario = await this.inventoryRepository.save(createInventoryDto);
+    return await this.inventoryRepository.findOne(
+      {
+        idInventario: inventario.idInventario
+      },
+      {
+        relations: ['unitMd', 'provider', 'category']
+      }
+    );
   }
 
   async findAll() {
@@ -46,6 +46,18 @@ export class InventoryService {
     const inventory = await this.inventoryRepository.findOne(id);
     if (!inventory) throw new BadRequestException('No existe el inventario');
     return inventory;
+  }
+
+  async findByCategory(id: number) {
+    const inventories = await this.inventoryRepository.find({
+      relations: ['unitMd', 'provider', 'category'],
+      where: { category: { idCategoria: id } }
+    });
+    if (inventories.length > 0) {
+      return inventories;
+    } else {
+      return [];
+    }
   }
 
   async update(id: number, updateInventoryDto: UpdateInventoryDto) {

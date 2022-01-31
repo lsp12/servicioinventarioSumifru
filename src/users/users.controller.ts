@@ -10,6 +10,8 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Role } from 'src/guards/rol.enum';
+import { Roles } from 'src/guards/papeles.decorador';
 
 @Controller('users')
 export class UsersController {
@@ -18,6 +20,12 @@ export class UsersController {
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
+  }
+
+  @Post('/login')
+  login(@Body() login: CreateUserDto) {
+    console.log(login);
+    return this.usersService.login(login);
   }
 
   @Get()

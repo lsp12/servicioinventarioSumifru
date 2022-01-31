@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateResponsableDto } from './dto/create-responsable.dto';
@@ -11,8 +11,17 @@ export class ResponsableService {
     @InjectRepository(Responsable)
     private inventoryRepository: Repository<Responsable>
   ) {}
-  create(createResponsableDto: CreateResponsableDto) {
-    return 'This action adds a new responsable';
+  async create(createResponsableDto: CreateResponsableDto) {
+    const responsable = this.inventoryRepository.create(createResponsableDto);
+    await this.inventoryRepository.save(responsable);
+    return await this.inventoryRepository.findOne(
+      {
+        idResponsable: responsable.idResponsable
+      },
+      {
+        relations: ['user', 'ranch', 'inventory']
+      }
+    );
   }
 
   async findAll() {
@@ -22,15 +31,28 @@ export class ResponsableService {
     return responsables;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} responsable`;
+  async findOne(id: number) {
+    const responsable = await this.inventoryRepository.find({
+      where: {
+        idResponsable: id
+      },
+      relations: ['user', 'ranch', 'inventory']
+    });
+    if (!responsable) throw new BadRequestException('No existe el responsable');
+    return responsable;
   }
 
-  update(id: number, updateResponsableDto: UpdateResponsableDto) {
-    return `This action updates a #${id} responsable`;
+  async update(id: number, updateResponsableDto: UpdateResponsableDto) {
+    const exist = await this.inventoryRepository.findOne(id);
+    if (!exist) throw new BadRequestException('No existe el responsable');
+    await this.inventoryRepository.update(id, updateResponsableDto);
+    return 'Responsable actualizado';
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} responsable`;
+  async remove(id: number) {
+    const exist = await this.inventoryRepository.findOne(id);
+    if (!exist) throw new BadRequestException('No existe el responsable');
+    await this.inventoryRepository.delete(id);
+    return 'Responsable eliminado';
   }
 }
