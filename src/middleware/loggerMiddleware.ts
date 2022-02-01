@@ -10,7 +10,6 @@ interface User {
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: () => void) {
-    console.log(req.headers);
     const token = req.headers['authorization'];
     if (!token) throw new NotFoundException('Token not found');
     const accesToken: User = jwt.verify(token, 'inventario', (err, decoded) => {
@@ -18,7 +17,6 @@ export class LoggerMiddleware implements NestMiddleware {
       return decoded;
     });
     req.body.user = accesToken;
-    console.log(req.body, 'miidl');
     if (!accesToken) return res.status(401).send('Unauthorized');
     next();
   }

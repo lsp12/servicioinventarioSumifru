@@ -47,8 +47,9 @@ export class AppModule {
     consume
       .apply(LoggerMiddleware)
       .exclude(
-       
+       {path:"/users/login", method: RequestMethod.POST},
+       {path:"/users", method: RequestMethod.POST},
       )
-      .forRoutes();
+      .forRoutes(UsersController);
   }
  }

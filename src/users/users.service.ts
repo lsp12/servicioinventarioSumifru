@@ -18,7 +18,7 @@ export class UsersService {
     const token = jwt.sign(
       { user: user.idUsuario.toString(), role: user.role },
       'inventario',
-      { expiresIn: '1h' }
+      { expiresIn: '1d' }
     );
     return token;
   }
