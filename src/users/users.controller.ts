@@ -28,6 +28,11 @@ export class UsersController {
     return this.usersService.login(login);
   }
 
+  @Get('/myuser')
+  myUser(@Body('user') user) {
+    return user;
+  }
+
   @Get()
   @Roles(Role.Admin)
   findAll() {
@@ -41,6 +46,7 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
+    console.log('get h');
     return this.usersService.findOne(+id);
   }
 

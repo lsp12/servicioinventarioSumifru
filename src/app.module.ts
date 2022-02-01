@@ -18,6 +18,8 @@ import { LoggerMiddleware } from './middleware/loggerMiddleware';
 import { RolesGuard } from './guards/roles.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { UsersController } from './users/users.controller';
+import { ReporteModule } from './reporte/reporte.module';
+import { ResponsableController } from './responsable/responsable.controller';
 
 @Module({
   imports: [
@@ -36,6 +38,7 @@ import { UsersController } from './users/users.controller';
         }),
     }),
     HistoryModule,
+    ReporteModule,
     
   ],
   controllers: [AppController],
@@ -50,6 +53,6 @@ export class AppModule {
        {path:"/users/login", method: RequestMethod.POST},
        {path:"/users", method: RequestMethod.POST},
       )
-      .forRoutes(UsersController);
+      .forRoutes(UsersController,ResponsableController);
   }
  }

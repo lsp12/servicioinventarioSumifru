@@ -17,6 +17,7 @@ export class LoggerMiddleware implements NestMiddleware {
       return decoded;
     });
     req.body.user = accesToken;
+    console.log(req.body);
     if (!accesToken) return res.status(401).send('Unauthorized');
     next();
   }

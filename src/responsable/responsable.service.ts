@@ -42,6 +42,22 @@ export class ResponsableService {
     return responsable;
   }
 
+  async findByUser(id: number) {
+    const responsables = await this.inventoryRepository.find({
+      where: {
+        user: {
+          idUsuario: id
+        }
+      },
+      relations: ['user', 'ranch', 'inventory']
+    });
+    if (responsables.length > 0) {
+      return responsables;
+    } else {
+      return [];
+    }
+  }
+
   async update(id: number, updateResponsableDto: UpdateResponsableDto) {
     const exist = await this.inventoryRepository.findOne(id);
     if (!exist) throw new BadRequestException('No existe el responsable');

@@ -8,7 +8,11 @@ import {
   Put
 } from '@nestjs/common';
 import { ResponsableService } from './responsable.service';
-import { CreateResponsableDto } from './dto/create-responsable.dto';
+import {
+  CreateResponsableDto,
+  GetToken,
+  useDto
+} from './dto/create-responsable.dto';
 import { UpdateResponsableDto } from './dto/update-responsable.dto';
 
 @Controller('responsable')
@@ -18,6 +22,13 @@ export class ResponsableController {
   @Post()
   create(@Body() createResponsableDto: CreateResponsableDto) {
     return this.responsableService.create(createResponsableDto);
+  }
+
+  @Get('/oneresponsable')
+  findOneResponsable(@Body() user: GetToken) {
+    console.log(user, 'responsable');
+    return this.responsableService.findByUser(+user.user.user);
+    return user.user.user;
   }
 
   @Get()

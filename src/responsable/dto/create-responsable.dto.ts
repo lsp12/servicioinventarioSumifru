@@ -1,12 +1,6 @@
 import { IsNumber, IsString } from 'class-validator';
 
 export class CreateResponsableDto {
-  @IsString()
-  reporte: string;
-
-  @IsString()
-  estado: string;
-
   @IsNumber()
   ranch: number;
 
@@ -15,4 +9,14 @@ export class CreateResponsableDto {
 
   @IsNumber()
   user: number;
+}
+
+export class useDto {
+  user: string;
+  role: string;
+  nombre: string;
+}
+
+export class GetToken {
+  user: useDto;
 }

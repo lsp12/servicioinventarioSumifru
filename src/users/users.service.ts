@@ -16,7 +16,7 @@ export class UsersService {
 
   generateAuthToken(user: User) {
     const token = jwt.sign(
-      { user: user.idUsuario.toString(), role: user.role },
+      { user: user.idUsuario.toString(), role: user.role, nombre: user.nombre },
       'inventario',
       { expiresIn: '1d' }
     );
@@ -38,8 +38,12 @@ export class UsersService {
     const user = await this.usersRepository.findOne({ nombre: login.nombre });
     if (user) {
       const auth = bcryptCompare(login.contraseña, user.contraseña);
+      const { contraseña, ...userWithoutPassword } = user;
       if (auth) {
-        return { user, token: this.generateAuthToken(user) };
+        return {
+          user: userWithoutPassword,
+          token: this.generateAuthToken(user)
+        };
       } else throw new BadRequestException('Wrong password');
     } else throw new BadRequestException('User not found');
   }
