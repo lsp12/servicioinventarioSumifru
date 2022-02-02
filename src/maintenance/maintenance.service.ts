@@ -1,26 +1,90 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateMaintenanceDto } from './dto/create-maintenance.dto';
 import { UpdateMaintenanceDto } from './dto/update-maintenance.dto';
+import { Maintenance } from './entities/maintenance.entity';
 
 @Injectable()
 export class MaintenanceService {
-  create(createMaintenanceDto: CreateMaintenanceDto) {
-    return 'This action adds a new maintenance';
+  constructor(
+    @InjectRepository(Maintenance)
+    private maintenanceRepository: Repository<Maintenance>
+  ) {}
+
+  async create(createMaintenanceDto: CreateMaintenanceDto) {
+    const maintenance = this.maintenanceRepository.create(createMaintenanceDto);
+    await this.maintenanceRepository.save(maintenance);
+    return await this.maintenanceRepository.findOne(
+      {
+        idMantenimiento: maintenance.idMantenimiento
+      },
+      {
+        relations: ['responsable', 'responsable.inventory']
+      }
+    );
   }
 
-  findAll() {
-    return `This action returns all maintenance`;
+  async findAll() {
+    const maintenances = await this.maintenanceRepository.find({
+      relations: ['responsable', 'responsable.inventory']
+    });
+    return maintenances;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} maintenance`;
+  async findByUser(id: number) {
+    const maintenances = await this.maintenanceRepository.find({
+      where: {
+        responsable: {
+          user: id
+        }
+      },
+      relations: ['responsable', 'responsable.inventory'],
+      order: {
+        idMantenimiento: 'DESC'
+      }
+    });
+    if (maintenances.length > 0) {
+      return maintenances;
+    } else {
+      return [];
+    }
   }
 
-  update(id: number, updateMaintenanceDto: UpdateMaintenanceDto) {
-    return `This action updates a #${id} maintenance`;
+  async findOne(id: number) {
+    const maintenance = await this.maintenanceRepository.find({
+      where: {
+        idMantenimiento: id
+      },
+      relations: ['responsable']
+    });
+    if (!maintenance)
+      throw new BadRequestException('No existe el mantenimiento');
+    return maintenance;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} maintenance`;
+  async update(id: number, updateMaintenanceDto: UpdateMaintenanceDto) {
+    const maintenance = await this.maintenanceRepository.findOne(id);
+    if (!maintenance)
+      throw new BadRequestException('No existe el mantenimiento');
+    await this.maintenanceRepository.update(id, {
+      estado: true
+    });
+    return await this.maintenanceRepository.findOne(
+      {
+        idMantenimiento: id
+      },
+      {
+        relations: ['responsable', 'responsable.inventory']
+      }
+    );
+  }
+
+  async remove(id: number) {
+    const maintenance = await this.maintenanceRepository.findOne(id);
+    if (!maintenance)
+      throw new BadRequestException('No existe el mantenimiento');
+    await this.maintenanceRepository.remove(maintenance);
+    return 'Mantenimiento eliminado';
   }
 }

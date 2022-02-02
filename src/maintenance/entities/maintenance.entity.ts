@@ -1,5 +1,13 @@
 import { Inventory } from 'src/inventory/entities/inventory.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Responsable } from 'src/responsable/entities/responsable.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
 
 @Entity()
 export class Maintenance {
@@ -7,19 +15,22 @@ export class Maintenance {
   idMantenimiento: number;
 
   @Column()
-  numMantenimiento: string;
+  numMantenimiento: number;
 
   @Column()
   motivo: string;
 
-  @Column()
+  @Column({ type: 'boolean', default: false })
+  estado: boolean;
+
+  @CreateDateColumn({ type: 'timestamp' })
   fechaInicio: Date;
 
-  @Column({ nullable: true })
+  @UpdateDateColumn({ type: 'timestamp' })
   fechaFin: Date;
 
-  @ManyToOne(() => Inventory, (inventory) => inventory.maintenances, {
+  @ManyToOne(() => Responsable, (Responsable) => Responsable.maintenance, {
     cascade: true
   })
-  inventory: Inventory;
+  responsable: number;
 }

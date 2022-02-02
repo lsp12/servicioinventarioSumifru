@@ -1,4 +1,5 @@
 import { Inventory } from 'src/inventory/entities/inventory.entity';
+import { Maintenance } from 'src/maintenance/entities/maintenance.entity';
 import { Ranch } from 'src/ranch/entities/ranch.entity';
 import { Reporte } from 'src/reporte/entities/reporte.entity';
 import { User } from 'src/users/entities/user.entity';
@@ -44,4 +45,7 @@ export class Responsable {
 
   @OneToMany(() => Reporte, (reporte) => reporte.responsable)
   reportes: Reporte[];
+
+  @OneToMany(() => Maintenance, (Maintenance) => Maintenance.responsable)
+  maintenance: Maintenance[];
 }

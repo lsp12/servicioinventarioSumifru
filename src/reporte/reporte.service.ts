@@ -39,7 +39,7 @@ export class ReporteService {
   async update(id: number, updateReporteDto: UpdateReporteDto) {
     const reporte = await this.reporteRepository.findOne(id);
     if (!reporte) throw new BadRequestException('No existe el reporte');
-    this.reporteRepository.merge(reporte, updateReporteDto);
+    await this.reporteRepository.update(id, updateReporteDto);
     await this.reporteRepository.save(reporte);
     return await this.reporteRepository.findOne(
       {
