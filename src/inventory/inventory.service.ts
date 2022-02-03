@@ -51,9 +51,9 @@ export class InventoryService {
       where: { mantenimieto: false }
     });
     return {
-      inventories,
-      inventoriesMantenimiento,
-      inventoriesNoMantenimiento
+      total: inventories,
+      enMantenimiento: inventoriesMantenimiento,
+      enUso: inventoriesNoMantenimiento
     };
   }
 
