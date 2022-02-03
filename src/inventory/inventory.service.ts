@@ -42,6 +42,21 @@ export class InventoryService {
     }
   }
 
+  async findAllCount() {
+    const inventories = await this.inventoryRepository.count();
+    const inventoriesMantenimiento = await this.inventoryRepository.count({
+      where: { mantenimieto: true }
+    });
+    const inventoriesNoMantenimiento = await this.inventoryRepository.count({
+      where: { mantenimieto: false }
+    });
+    return {
+      inventories,
+      inventoriesMantenimiento,
+      inventoriesNoMantenimiento
+    };
+  }
+
   async findOne(id: number) {
     const inventory = await this.inventoryRepository.findOne(id);
     if (!inventory) throw new BadRequestException('No existe el inventario');
@@ -66,6 +81,13 @@ export class InventoryService {
     await this.inventoryRepository.update(id, updateInventoryDto);
 
     return 'Inventario actualizado';
+  }
+
+  async updateMantenimieto(id: number, mantenimieto: boolean) {
+    const exist = await this.inventoryRepository.findOne(id);
+    if (!exist) throw new BadRequestException('No existe el inventario');
+    await this.inventoryRepository.update(id, { mantenimieto });
+    return 'Mantenimiento actualizado';
   }
 
   async remove(id: number) {

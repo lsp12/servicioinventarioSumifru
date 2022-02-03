@@ -30,6 +30,11 @@ export class InventoryController {
     return this.inventoryService.findByCategory(+category);
   }
 
+  @Get('/count')
+  count() {
+    return this.inventoryService.findAllCount();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.inventoryService.findOne(+id);
@@ -41,6 +46,11 @@ export class InventoryController {
     @Body() updateInventoryDto: UpdateInventoryDto
   ) {
     return this.inventoryService.update(+id, updateInventoryDto);
+  }
+
+  @Put('/updatemantenimieto/:id')
+  updateMantenimieto(@Param('id') id: string, @Body() mantenimieto: boolean) {
+    return this.inventoryService.updateMantenimieto(+id, mantenimieto);
   }
 
   @Delete(':id')

@@ -7,6 +7,9 @@ export class CreateMaintenanceDto {
 
   @IsNumber()
   responsable: number;
+
+  @IsNumber()
+  inventario: number;
 }
 
 export class GetToken {

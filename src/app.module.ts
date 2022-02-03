@@ -21,6 +21,7 @@ import { UsersController } from './users/users.controller';
 import { ReporteModule } from './reporte/reporte.module';
 import { ResponsableController } from './responsable/responsable.controller';
 import { MaintenanceController } from './maintenance/maintenance.controller';
+import { ReporteController } from './reporte/reporte.controller';
 
 @Module({
   imports: [
@@ -54,6 +55,6 @@ export class AppModule {
        {path:"/users/login", method: RequestMethod.POST},
        {path:"/users", method: RequestMethod.POST},
       )
-      .forRoutes(UsersController,ResponsableController, MaintenanceController);
+      .forRoutes(UsersController,ResponsableController, MaintenanceController, ReporteController);
   }
  }

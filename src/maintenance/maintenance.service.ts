@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { InventoryService } from 'src/inventory/inventory.service';
 import { Repository } from 'typeorm';
 import { CreateMaintenanceDto } from './dto/create-maintenance.dto';
 import { UpdateMaintenanceDto } from './dto/update-maintenance.dto';
@@ -9,12 +10,17 @@ import { Maintenance } from './entities/maintenance.entity';
 export class MaintenanceService {
   constructor(
     @InjectRepository(Maintenance)
-    private maintenanceRepository: Repository<Maintenance>
+    private maintenanceRepository: Repository<Maintenance>,
+    private readonly inventoryService: InventoryService
   ) {}
 
   async create(createMaintenanceDto: CreateMaintenanceDto) {
     const maintenance = this.maintenanceRepository.create(createMaintenanceDto);
     await this.maintenanceRepository.save(maintenance);
+    await this.inventoryService.updateMantenimieto(
+      createMaintenanceDto.inventario,
+      true
+    );
     return await this.maintenanceRepository.findOne(
       {
         idMantenimiento: maintenance.idMantenimiento
@@ -70,6 +76,10 @@ export class MaintenanceService {
     await this.maintenanceRepository.update(id, {
       estado: true
     });
+    await this.inventoryService.updateMantenimieto(
+      updateMaintenanceDto.inventario,
+      false
+    );
     return await this.maintenanceRepository.findOne(
       {
         idMantenimiento: id

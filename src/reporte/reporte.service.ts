@@ -32,6 +32,24 @@ export class ReporteService {
     return reportes;
   }
 
+  async findByUser(id: number) {
+    const reportes = await this.reporteRepository.find({
+      where: {
+        responsable: {
+          user: {
+            idUsuario: id
+          }
+        }
+      },
+      relations: ['responsable', 'responsable.inventory']
+    });
+    if (reportes.length > 0) {
+      return reportes;
+    } else {
+      return [];
+    }
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} reporte`;
   }

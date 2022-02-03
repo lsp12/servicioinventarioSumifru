@@ -27,7 +27,6 @@ export class MaintenanceController {
 
   @Get('/user')
   findByUser(@Body('user') user: GetToken) {
-    console.log(user, 'responsable');
     return this.maintenanceService.findByUser(+user.user);
     return user.user;
   }

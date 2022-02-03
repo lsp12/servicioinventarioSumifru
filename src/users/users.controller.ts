@@ -24,7 +24,6 @@ export class UsersController {
 
   @Post('/login')
   login(@Body() login: CreateUserDto) {
-    console.log(login);
     return this.usersService.login(login);
   }
 
@@ -46,7 +45,6 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    console.log('get h');
     return this.usersService.findOne(+id);
   }
 

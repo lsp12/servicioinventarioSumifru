@@ -21,6 +21,9 @@ export class Inventory {
   @Column()
   nombreProducto: string;
 
+  @Column({ type: 'boolean', default: false })
+  mantenimieto: boolean;
+
   //muchos a uno
 
   @ManyToOne(() => Category, (category) => category.inventories, {

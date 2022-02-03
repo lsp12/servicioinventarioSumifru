@@ -21,22 +21,27 @@ export class ReporteController {
     return this.reporteService.create(createReporteDto);
   }
 
+  @Get('/user')
+  findByUser(@Body() user) {
+    return this.reporteService.findByUser(+user.user.user);
+  }
+
   @Get()
   findAll() {
     return this.reporteService.findAll();
   }
 
-  @Get(':id')
+  @Get('/:id')
   findOne(@Param('id') id: string) {
     return this.reporteService.findOne(+id);
   }
 
-  @Put(':id')
+  @Put('/:id')
   update(@Param('id') id: string, @Body() updateReporteDto: UpdateReporteDto) {
     return this.reporteService.update(+id, updateReporteDto);
   }
 
-  @Delete(':id')
+  @Delete('/:id')
   remove(@Param('id') id: string) {
     return this.reporteService.remove(+id);
   }
