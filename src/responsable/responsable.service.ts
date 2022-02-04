@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { HistoryService } from 'src/history/history.service';
 import { Repository } from 'typeorm';
 import { CreateResponsableDto } from './dto/create-responsable.dto';
 import { UpdateResponsableDto } from './dto/update-responsable.dto';
@@ -9,11 +10,17 @@ import { Responsable } from './entities/responsable.entity';
 export class ResponsableService {
   constructor(
     @InjectRepository(Responsable)
-    private inventoryRepository: Repository<Responsable>
+    private inventoryRepository: Repository<Responsable>,
+    private readonly historyService: HistoryService
   ) {}
   async create(createResponsableDto: CreateResponsableDto) {
     const responsable = this.inventoryRepository.create(createResponsableDto);
     await this.inventoryRepository.save(responsable);
+    await this.historyService.create({
+      inventario: responsable.inventory,
+      ranch: responsable.ranch,
+      user: responsable.user
+    });
     return await this.inventoryRepository.findOne(
       {
         idResponsable: responsable.idResponsable
@@ -47,6 +54,9 @@ export class ResponsableService {
       where: {
         user: {
           idUsuario: id
+        },
+        inventory: {
+          mantenimieto: false
         }
       },
       relations: ['user', 'ranch', 'inventory']
@@ -61,7 +71,16 @@ export class ResponsableService {
   async update(id: number, updateResponsableDto: UpdateResponsableDto) {
     const exist = await this.inventoryRepository.findOne(id);
     if (!exist) throw new BadRequestException('No existe el responsable');
-    await this.inventoryRepository.update(id, updateResponsableDto);
+    await this.inventoryRepository.update(id, {
+      user: updateResponsableDto.user,
+      ranch: updateResponsableDto.ranch,
+      inventory: updateResponsableDto.inventory
+    });
+    await this.historyService.create({
+      inventario: updateResponsableDto.inventory,
+      ranch: updateResponsableDto.ranch,
+      user: updateResponsableDto.user
+    });
     return 'Responsable actualizado';
   }
 

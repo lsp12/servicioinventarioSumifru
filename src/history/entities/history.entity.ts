@@ -8,27 +8,30 @@ export class History {
   @PrimaryGeneratedColumn()
   idHistorial: number;
 
-  @Column()
+  @Column({ type: 'timestamp' })
   fechaMovimiento: Date;
 
   @ManyToOne(() => Inventory, (inventory) => inventory.histories, {
+    eager: true,
     cascade: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
   })
-  inventario: Inventory;
+  inventario: number;
 
   @ManyToOne(() => User, (user) => user.histories, {
+    eager: true,
     cascade: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
   })
-  user: User;
+  user: number;
 
   @ManyToOne(() => Ranch, (ranch) => ranch.histories, {
+    eager: true,
     cascade: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
   })
-  ranch: Ranch;
+  ranch: number;
 }

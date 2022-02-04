@@ -1,7 +1,10 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { useDto } from 'src/responsable/dto/create-responsable.dto';
 
 export class CreateMaintenanceDto {
+  @IsOptional()
+  numMantenimiento: number;
+
   @IsString()
   motivo: string;
 

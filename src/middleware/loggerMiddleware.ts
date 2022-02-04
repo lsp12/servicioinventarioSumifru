@@ -16,8 +16,7 @@ export class LoggerMiddleware implements NestMiddleware {
       if (err) throw new NotFoundException('Token not valid');
       return decoded;
     });
-    req.body.user = accesToken;
-    console.log(req.body, 'user------------------');
+    req.body.token = accesToken;
     if (!accesToken) return res.status(401).send('Unauthorized');
     next();
   }

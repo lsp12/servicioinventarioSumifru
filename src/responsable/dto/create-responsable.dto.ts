@@ -18,5 +18,5 @@ export class useDto {
 }
 
 export class GetToken {
-  user: useDto;
+  token: useDto;
 }

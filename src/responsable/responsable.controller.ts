@@ -26,8 +26,8 @@ export class ResponsableController {
 
   @Get('/oneresponsable')
   findOneResponsable(@Body() user: GetToken) {
-    return this.responsableService.findByUser(+user.user.user);
-    return user.user.user;
+    return this.responsableService.findByUser(+user.token.user);
+    return user.token.user;
   }
 
   @Get()

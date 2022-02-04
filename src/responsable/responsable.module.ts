@@ -3,9 +3,10 @@ import { ResponsableService } from './responsable.service';
 import { ResponsableController } from './responsable.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Responsable } from './entities/responsable.entity';
+import { HistoryModule } from 'src/history/history.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Responsable])],
+  imports: [TypeOrmModule.forFeature([Responsable]), HistoryModule],
   controllers: [ResponsableController],
   providers: [ResponsableService]
 })

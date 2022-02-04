@@ -23,7 +23,7 @@ export class ReporteController {
 
   @Get('/user')
   findByUser(@Body() user) {
-    return this.reporteService.findByUser(+user.user.user);
+    return this.reporteService.findByUser(+user.token.user);
   }
 
   @Get()

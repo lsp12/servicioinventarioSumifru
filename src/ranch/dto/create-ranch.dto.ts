@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 export class CreateRanchDto {
   @IsString()
@@ -7,6 +7,6 @@ export class CreateRanchDto {
   @IsString()
   condigoHacienda: string;
 
-  @IsString()
-  zona: string;
+  @IsNumber()
+  zona: number;
 }

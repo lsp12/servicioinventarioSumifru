@@ -26,7 +26,7 @@ export class MaintenanceController {
   }
 
   @Get('/user')
-  findByUser(@Body('user') user: GetToken) {
+  findByUser(@Body('token') user: GetToken) {
     return this.maintenanceService.findByUser(+user.user);
     return user.user;
   }
@@ -41,7 +41,6 @@ export class MaintenanceController {
     @Param('id') id: string,
     @Body() updateMaintenanceDto: UpdateMaintenanceDto
   ) {
-    console.log(updateMaintenanceDto);
     return this.maintenanceService.update(+id, updateMaintenanceDto);
   }
 

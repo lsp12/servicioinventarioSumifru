@@ -57,6 +57,22 @@ export class InventoryService {
     };
   }
 
+  async findByUser(id: number) {
+    const inventories = await this.inventoryRepository.find({
+      where: {
+        user: {
+          idUsuario: id
+        }
+      },
+      relations: ['unitMd', 'provider', 'category']
+    });
+    if (inventories.length > 0) {
+      return inventories;
+    } else {
+      throw new BadRequestException('No existen inventarios');
+    }
+  }
+
   async findOne(id: number) {
     const inventory = await this.inventoryRepository.findOne(id);
     if (!inventory) throw new BadRequestException('No existe el inventario');

@@ -12,6 +12,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Role } from 'src/guards/rol.enum';
 import { Roles } from 'src/guards/papeles.decorador';
+import { GetToken } from 'src/responsable/dto/create-responsable.dto';
 
 @Controller('users')
 export class UsersController {
@@ -28,8 +29,13 @@ export class UsersController {
   }
 
   @Get('/myuser')
-  myUser(@Body('user') user) {
+  myUser(@Body('token') user) {
     return user;
+  }
+
+  @Get('/byId')
+  findById(@Body() user: GetToken) {
+    return this.usersService.findByUser(+user.token.user);
   }
 
   @Get()

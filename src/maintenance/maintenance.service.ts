@@ -15,6 +15,21 @@ export class MaintenanceService {
   ) {}
 
   async create(createMaintenanceDto: CreateMaintenanceDto) {
+    const exist = await this.maintenanceRepository.findOne({
+      where: {
+        responsable: {
+          inventory: createMaintenanceDto.inventario
+        }
+      },
+      relations: ['responsable', 'responsable.inventory'],
+      order: {
+        idMantenimiento: 'DESC'
+      }
+    });
+    console.log(exist.numMantenimiento, 'este es el dto');
+    exist.numMantenimiento += 1;
+    console.log(exist.numMantenimiento, 'suma 1');
+    createMaintenanceDto.numMantenimiento = exist?.numMantenimiento | 0;
     const maintenance = this.maintenanceRepository.create(createMaintenanceDto);
     await this.maintenanceRepository.save(maintenance);
     await this.inventoryService.updateMantenimieto(

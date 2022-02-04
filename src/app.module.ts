@@ -22,6 +22,7 @@ import { ReporteModule } from './reporte/reporte.module';
 import { ResponsableController } from './responsable/responsable.controller';
 import { MaintenanceController } from './maintenance/maintenance.controller';
 import { ReporteController } from './reporte/reporte.controller';
+import { ZonaModule } from './zona/zona.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { ReporteController } from './reporte/reporte.controller';
     }),
     HistoryModule,
     ReporteModule,
+    ZonaModule,
     
   ],
   controllers: [AppController],

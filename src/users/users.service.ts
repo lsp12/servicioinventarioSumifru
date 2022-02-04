@@ -25,17 +25,23 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     const exist = await this.usersRepository.findOne({
-      nombre: createUserDto.nombre
+      numCedula: createUserDto.numCedula
     });
     if (exist) throw new BadRequestException('User already exists');
     createUserDto.contraseña = await bcryptPassword(createUserDto.contraseña);
-    const user = await this.usersRepository.create(createUserDto);
-    await this.usersRepository.save(user);
-    return user;
+    if (createUserDto.role.length > 0) {
+      const user = await this.usersRepository.create(createUserDto);
+      await this.usersRepository.save(user);
+      return user;
+    } else {
+      throw new BadRequestException('Role is required');
+    }
   }
 
   async login(login: CreateUserDto) {
-    const user = await this.usersRepository.findOne({ nombre: login.nombre });
+    const user = await this.usersRepository.findOne({
+      numCedula: login.numCedula
+    });
     if (user) {
       const auth = bcryptCompare(login.contraseña, user.contraseña);
       const { contraseña, ...userWithoutPassword } = user;
@@ -56,6 +62,16 @@ export class UsersService {
   async findOne(id: number) {
     const user = await this.usersRepository.findOne(id);
     return user;
+  }
+
+  async findByUser(id: number) {
+    const users = await this.usersRepository.find({
+      where: {
+        idUsuario: id
+      },
+      relations: ['responsables', 'responsables.inventory']
+    });
+    return users;
   }
 
   async findByNombre(nombre: string) {
