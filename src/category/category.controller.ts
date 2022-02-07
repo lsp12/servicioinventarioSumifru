@@ -5,7 +5,8 @@ import {
   Body,
   Param,
   Delete,
-  Put
+  Put,
+  Request
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -21,7 +22,8 @@ export class CategoryController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Request() req) {
+    console.log(req.headers.id, req.headers.role, 'este es den con tron');
     return this.categoryService.findAll();
   }
 

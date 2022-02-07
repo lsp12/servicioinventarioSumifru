@@ -1,3 +1,4 @@
+import { Inventory } from 'src/inventory/entities/inventory.entity';
 import { Responsable } from 'src/responsable/entities/responsable.entity';
 import {
   Column,
@@ -21,10 +22,17 @@ export class Reporte {
   @CreateDateColumn({ type: 'timestamp' })
   fechaIngreso: Date;
 
-  @ManyToOne(() => Responsable, (Responsable) => Responsable.reportes, {
+  /* @ManyToOne(() => Responsable, (Responsable) => Responsable.reportes, {
     cascade: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
   })
-  responsable: number;
+  responsable: number; */
+
+  @ManyToOne(() => Inventory, (Inventory) => Inventory.reporte, {
+    cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
+  inventory: number;
 }

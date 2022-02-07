@@ -30,7 +30,7 @@ export class HistoryService {
     if (history.length > 0) {
       return history;
     } else {
-      throw new BadRequestException('No existen historiales');
+      return [];
     }
   }
 
@@ -43,7 +43,7 @@ export class HistoryService {
       },
       relations: ['user', 'inventory']
     });
-    if (!history) throw new BadRequestException('No existe el historial');
+    if (!history) return [];
     return history;
   }
 

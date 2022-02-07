@@ -8,5 +8,5 @@ export class CreateReporteDto {
   reporte: string;
 
   @IsNumber()
-  responsable: number;
+  inventory: number;
 }

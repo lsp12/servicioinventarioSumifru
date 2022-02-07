@@ -5,7 +5,8 @@ import {
   Body,
   Patch,
   Param,
-  Delete
+  Delete,
+  Put
 } from '@nestjs/common';
 import { ZonaService } from './zona.service';
 import { CreateZonaDto } from './dto/create-zona.dto';
@@ -30,12 +31,12 @@ export class ZonaController {
     return this.zonaService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateZonaDto: UpdateZonaDto) {
     return this.zonaService.update(+id, updateZonaDto);
   }
 
-  @Delete(':id')
+  @Delete('/:id')
   remove(@Param('id') id: string) {
     return this.zonaService.remove(+id);
   }

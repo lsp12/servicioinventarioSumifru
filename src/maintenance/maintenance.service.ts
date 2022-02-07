@@ -46,9 +46,39 @@ export class MaintenanceService {
     );
   }
 
+  async createMaintenance(createMaintenanceDto: CreateMaintenanceDto) {
+    const exist = await this.maintenanceRepository.findOne({
+      where: {
+        inventory: createMaintenanceDto.inventario
+      },
+      relations: ['inventory'],
+      order: {
+        idMantenimiento: 'DESC'
+      }
+    });
+    if (exist) exist.numMantenimiento += 1;
+    console.log(exist, 'este es el dto');
+    createMaintenanceDto.numMantenimiento = exist?.numMantenimiento | 0;
+    const maintenance = this.maintenanceRepository.create(createMaintenanceDto);
+    this.maintenanceRepository.create(maintenance);
+    await this.inventoryService.updateMantenimieto(
+      createMaintenanceDto.inventario,
+      true
+    );
+    await this.maintenanceRepository.save(maintenance);
+    return await this.maintenanceRepository.findOne(
+      {
+        idMantenimiento: maintenance.idMantenimiento
+      },
+      {
+        relations: ['inventory']
+      }
+    );
+  }
+
   async findAll() {
     const maintenances = await this.maintenanceRepository.find({
-      relations: ['responsable', 'responsable.inventory']
+      relations: ['inventory']
     });
     return maintenances;
   }
@@ -101,6 +131,27 @@ export class MaintenanceService {
       },
       {
         relations: ['responsable', 'responsable.inventory']
+      }
+    );
+  }
+
+  async UpdateI(id: number, updateMaintenanceDto: UpdateMaintenanceDto) {
+    const maintenance = await this.maintenanceRepository.findOne(id);
+    if (!maintenance)
+      throw new BadRequestException('No existe el mantenimiento');
+    await this.maintenanceRepository.update(id, {
+      estado: true
+    });
+    await this.inventoryService.updateMantenimieto(
+      updateMaintenanceDto.inventario,
+      false
+    );
+    return await this.maintenanceRepository.findOne(
+      {
+        idMantenimiento: id
+      },
+      {
+        relations: ['inventory']
       }
     );
   }

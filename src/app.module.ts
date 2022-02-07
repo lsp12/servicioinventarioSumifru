@@ -22,7 +22,8 @@ import { ReporteModule } from './reporte/reporte.module';
 import { ResponsableController } from './responsable/responsable.controller';
 import { MaintenanceController } from './maintenance/maintenance.controller';
 import { ReporteController } from './reporte/reporte.controller';
-import { ZonaModule } from './zona/zona.module';
+import {ZonaModule} from './zona/zona.module';
+import { CategoryController } from './category/category.controller';
 
 @Module({
   imports: [
@@ -34,15 +35,16 @@ import { ZonaModule } from './zona/zona.module';
     InventoryModule,
     ResponsableModule,
     RanchModule,
+    HistoryModule,
+    ReporteModule,
+    ZonaModule,
     TypeOrmModule.forRootAsync({
       useFactory: async () =>
         Object.assign(await getConnectionOptions(), {
           autoLoadEntities: true,
         }),
     }),
-    HistoryModule,
-    ReporteModule,
-    ZonaModule,
+    
     
   ],
   controllers: [AppController],
@@ -57,6 +59,12 @@ export class AppModule {
        {path:"/users/login", method: RequestMethod.POST},
        {path:"/users", method: RequestMethod.POST},
       )
-      .forRoutes(UsersController,ResponsableController, MaintenanceController, ReporteController);
+      .forRoutes(
+        UsersController,
+        ResponsableController,
+        MaintenanceController,
+        ReporteController,
+        CategoryController
+        );
   }
  }

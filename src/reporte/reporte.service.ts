@@ -20,14 +20,14 @@ export class ReporteService {
         idReporte: reporte.idReporte
       },
       {
-        relations: ['responsable', 'responsable.inventory']
+        relations: ['inventory']
       }
     );
   }
 
   async findAll() {
     const reportes = await this.reporteRepository.find({
-      relations: ['responsable', 'responsable.inventory']
+      relations: ['inventory']
     });
     return reportes;
   }
@@ -58,13 +58,12 @@ export class ReporteService {
     const reporte = await this.reporteRepository.findOne(id);
     if (!reporte) throw new BadRequestException('No existe el reporte');
     await this.reporteRepository.update(id, updateReporteDto);
-    await this.reporteRepository.save(reporte);
     return await this.reporteRepository.findOne(
       {
         idReporte: reporte.idReporte
       },
       {
-        relations: ['responsable', 'responsable.inventory']
+        relations: ['inventory']
       }
     );
   }

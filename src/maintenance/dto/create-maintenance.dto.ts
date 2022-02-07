@@ -8,8 +8,8 @@ export class CreateMaintenanceDto {
   @IsString()
   motivo: string;
 
-  @IsNumber()
-  responsable: number;
+  /* @IsNumber()
+  responsable: number; */
 
   @IsNumber()
   inventario: number;

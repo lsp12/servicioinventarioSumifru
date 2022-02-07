@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 
 interface User {
-  idUsuario: number;
+  user: number;
   role: string;
 }
 
@@ -16,8 +16,10 @@ export class LoggerMiddleware implements NestMiddleware {
       if (err) throw new NotFoundException('Token not valid');
       return decoded;
     });
-    req.body.token = accesToken;
+    /* req.body.token = accesToken; */
     if (!accesToken) return res.status(401).send('Unauthorized');
+    req.headers.id = accesToken.user as unknown as string;
+    req.headers.role = accesToken.role;
     next();
   }
 }

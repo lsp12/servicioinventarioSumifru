@@ -5,7 +5,9 @@ import {
   Body,
   Put,
   Param,
-  Delete
+  Delete,
+  Request,
+  Headers
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -29,8 +31,11 @@ export class UsersController {
   }
 
   @Get('/myuser')
-  myUser(@Body('token') user) {
-    return user;
+  myUser(@Headers() headers) {
+    return {
+      id: headers.id,
+      role: headers.role
+    };
   }
 
   @Get('/byId')

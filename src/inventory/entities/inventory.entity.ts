@@ -1,5 +1,7 @@
 import { Category } from 'src/category/entities/category.entity';
+import { Maintenance } from 'src/maintenance/entities/maintenance.entity';
 import { Provider } from 'src/provider/entities/provider.entity';
+import { Reporte } from 'src/reporte/entities/reporte.entity';
 import { Responsable } from 'src/responsable/entities/responsable.entity';
 import { UnitMd } from 'src/unit-md/entities/unit-md.entity';
 import {
@@ -54,4 +56,10 @@ export class Inventory {
 
   @OneToMany(() => Responsable, (Responsable) => Responsable.inventory)
   histories: History[];
+
+  @OneToMany(() => Maintenance, (Maintenance) => Maintenance.inventory)
+  maintenance: Maintenance[];
+
+  @OneToMany(() => Reporte, (Reporte) => Reporte.inventory)
+  reporte: Reporte[];
 }

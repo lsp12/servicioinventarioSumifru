@@ -17,7 +17,7 @@ export class MaintenanceController {
 
   @Post()
   create(@Body() createMaintenanceDto: CreateMaintenanceDto) {
-    return this.maintenanceService.create(createMaintenanceDto);
+    return this.maintenanceService.createMaintenance(createMaintenanceDto);
   }
 
   @Get()
@@ -28,7 +28,6 @@ export class MaintenanceController {
   @Get('/user')
   findByUser(@Body('token') user: GetToken) {
     return this.maintenanceService.findByUser(+user.user);
-    return user.user;
   }
 
   @Get('/:id')
@@ -41,7 +40,7 @@ export class MaintenanceController {
     @Param('id') id: string,
     @Body() updateMaintenanceDto: UpdateMaintenanceDto
   ) {
-    return this.maintenanceService.update(+id, updateMaintenanceDto);
+    return this.maintenanceService.UpdateI(+id, updateMaintenanceDto);
   }
 
   @Delete('/:id')

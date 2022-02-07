@@ -29,8 +29,12 @@ export class Maintenance {
   @UpdateDateColumn({ type: 'timestamp' })
   fechaFin: Date;
 
-  @ManyToOne(() => Responsable, (Responsable) => Responsable.maintenance, {
+  /*  @ManyToOne(() => Responsable, (Responsable) => Responsable.maintenance, {
     cascade: true
   })
-  responsable: number;
+  responsable: number; */
+  @ManyToOne(() => Inventory, (Inventory) => Inventory.maintenance, {
+    cascade: true
+  })
+  inventory: number;
 }
