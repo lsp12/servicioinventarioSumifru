@@ -34,7 +34,9 @@ export class Maintenance {
   })
   responsable: number; */
   @ManyToOne(() => Inventory, (Inventory) => Inventory.maintenance, {
-    cascade: true
+    cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
   })
   inventory: number;
 }

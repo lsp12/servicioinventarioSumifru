@@ -17,6 +17,7 @@ export class MaintenanceController {
 
   @Post()
   create(@Body() createMaintenanceDto: CreateMaintenanceDto) {
+    console.log(createMaintenanceDto, 'DAatooooos');
     return this.maintenanceService.createMaintenance(createMaintenanceDto);
   }
 

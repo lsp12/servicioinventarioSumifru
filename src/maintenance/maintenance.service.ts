@@ -15,10 +15,11 @@ export class MaintenanceService {
   ) {}
 
   async create(createMaintenanceDto: CreateMaintenanceDto) {
+    console.log(createMaintenanceDto, 'createMaintenanceDto');
     const exist = await this.maintenanceRepository.findOne({
       where: {
         responsable: {
-          inventory: createMaintenanceDto.inventario
+          inventory: createMaintenanceDto.inventory
         }
       },
       relations: ['responsable', 'responsable.inventory'],
@@ -26,14 +27,18 @@ export class MaintenanceService {
         idMantenimiento: 'DESC'
       }
     });
-    console.log(exist.numMantenimiento, 'este es el dto');
     exist.numMantenimiento += 1;
-    console.log(exist.numMantenimiento, 'suma 1');
+
     createMaintenanceDto.numMantenimiento = exist?.numMantenimiento | 0;
+    console.log(
+      createMaintenanceDto,
+      'maintenance-----------------------------'
+    );
     const maintenance = this.maintenanceRepository.create(createMaintenanceDto);
+    console.log(maintenance, 'maintenance-----------------------------');
     await this.maintenanceRepository.save(maintenance);
     await this.inventoryService.updateMantenimieto(
-      createMaintenanceDto.inventario,
+      createMaintenanceDto.inventory,
       true
     );
     return await this.maintenanceRepository.findOne(
@@ -47,9 +52,10 @@ export class MaintenanceService {
   }
 
   async createMaintenance(createMaintenanceDto: CreateMaintenanceDto) {
+    console.log(createMaintenanceDto, 'createMaintenanceDto');
     const exist = await this.maintenanceRepository.findOne({
       where: {
-        inventory: createMaintenanceDto.inventario
+        inventory: createMaintenanceDto.inventory
       },
       relations: ['inventory'],
       order: {
@@ -57,12 +63,11 @@ export class MaintenanceService {
       }
     });
     if (exist) exist.numMantenimiento += 1;
-    console.log(exist, 'este es el dto');
     createMaintenanceDto.numMantenimiento = exist?.numMantenimiento | 0;
     const maintenance = this.maintenanceRepository.create(createMaintenanceDto);
-    this.maintenanceRepository.create(maintenance);
+    console.log(maintenance);
     await this.inventoryService.updateMantenimieto(
-      createMaintenanceDto.inventario,
+      createMaintenanceDto.inventory,
       true
     );
     await this.maintenanceRepository.save(maintenance);
@@ -122,7 +127,7 @@ export class MaintenanceService {
       estado: true
     });
     await this.inventoryService.updateMantenimieto(
-      updateMaintenanceDto.inventario,
+      updateMaintenanceDto.inventory,
       false
     );
     return await this.maintenanceRepository.findOne(
@@ -143,7 +148,7 @@ export class MaintenanceService {
       estado: true
     });
     await this.inventoryService.updateMantenimieto(
-      updateMaintenanceDto.inventario,
+      updateMaintenanceDto.inventory,
       false
     );
     return await this.maintenanceRepository.findOne(

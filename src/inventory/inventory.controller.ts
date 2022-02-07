@@ -27,6 +27,7 @@ export class InventoryController {
 
   @Get('/findByCategory/:category')
   findByCategory(@Param('category') category: string) {
+    console.log('findByCategory-----------------------------------');
     return this.inventoryService.findByCategory(+category);
   }
 
@@ -35,9 +36,16 @@ export class InventoryController {
     return this.inventoryService.findAllCount();
   }
 
-  @Get(':id')
+  /* @Get('/:id')
   findOne(@Param('id') id: string) {
+    console.log('findOne-----------------------------------');
     return this.inventoryService.findOne(+id);
+  }
+ */
+  @Get('/mantenimiento')
+  findMaintenanceItem() {
+    console.log('findMaintenanceItem-----------------------------------');
+    return this.inventoryService.findMaintenanceItem();
   }
 
   @Put(':id')

@@ -6,6 +6,7 @@ import { Responsable } from 'src/responsable/entities/responsable.entity';
 import { UnitMd } from 'src/unit-md/entities/unit-md.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToOne,
   OneToMany,
@@ -25,6 +26,9 @@ export class Inventory {
 
   @Column({ type: 'boolean', default: false })
   mantenimieto: boolean;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
 
   //muchos a uno
 

@@ -12,7 +12,7 @@ export class CreateMaintenanceDto {
   responsable: number; */
 
   @IsNumber()
-  inventario: number;
+  inventory: number;
 }
 
 export class GetToken {

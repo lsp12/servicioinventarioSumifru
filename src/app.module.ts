@@ -58,6 +58,7 @@ export class AppModule {
       .exclude(
        {path:"/users/login", method: RequestMethod.POST},
        {path:"/users", method: RequestMethod.POST},
+       {path:"responsable/count/zona", method: RequestMethod.GET},
       )
       .forRoutes(
         UsersController,

@@ -12,7 +12,6 @@ export class History {
   fechaMovimiento: Date;
 
   @ManyToOne(() => Inventory, (inventory) => inventory.histories, {
-    eager: true,
     cascade: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
@@ -20,7 +19,6 @@ export class History {
   inventario: number;
 
   @ManyToOne(() => User, (user) => user.histories, {
-    eager: true,
     cascade: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
@@ -28,7 +26,6 @@ export class History {
   user: number;
 
   @ManyToOne(() => Ranch, (ranch) => ranch.histories, {
-    eager: true,
     cascade: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'

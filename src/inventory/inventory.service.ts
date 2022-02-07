@@ -91,6 +91,19 @@ export class InventoryService {
     }
   }
 
+  async findMaintenanceItem() {
+    console.log('entro');
+    const inventories = await this.inventoryRepository.find({
+      where: { mantenimieto: false },
+      relations: ['unitMd', 'provider', 'category']
+    });
+    if (inventories.length > 0) {
+      return inventories;
+    } else {
+      return [];
+    }
+  }
+
   async update(id: number, updateInventoryDto: UpdateInventoryDto) {
     const exist = await this.inventoryRepository.findOne(id);
     if (!exist) throw new BadRequestException('No existe el inventario');

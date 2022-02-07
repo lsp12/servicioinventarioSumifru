@@ -25,7 +25,8 @@ export class HistoryService {
 
   async findAll() {
     const history = await this.historyRepository.find({
-      order: { idHistorial: 'DESC' }
+      order: { idHistorial: 'DESC' },
+      relations: ['user', 'inventario', 'ranch', 'ranch.zona']
     });
     if (history.length > 0) {
       return history;

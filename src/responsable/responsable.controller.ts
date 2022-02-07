@@ -30,6 +30,11 @@ export class ResponsableController {
     return user.token.user;
   }
 
+  @Get('/count/zona')
+  findCountZona() {
+    return this.responsableService.findCountZona();
+  }
+
   @Get()
   findAll() {
     return this.responsableService.findAll();
