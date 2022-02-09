@@ -24,6 +24,8 @@ import { MaintenanceController } from './maintenance/maintenance.controller';
 import { ReporteController } from './reporte/reporte.controller';
 import {ZonaModule} from './zona/zona.module';
 import { CategoryController } from './category/category.controller';
+import { DocModule } from './doc/doc.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -44,7 +46,10 @@ import { CategoryController } from './category/category.controller';
           autoLoadEntities: true,
         }),
     }),
-    
+    DocModule,
+    MulterModule.register({
+      dest: './files',
+    })
     
   ],
   controllers: [AppController],
