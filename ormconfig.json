@@ -5,7 +5,7 @@
     "port": 3306, 
     "username": "root", 
     "password": "",
-    "database": "inventariocalidad",
+    "database": "inventariocalidadesarrollo",
     "synchronize": true,
     "logging": true,
     "entities": [
