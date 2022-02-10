@@ -6,7 +6,7 @@
     "username": "root", 
     "password": "",
     "database": "inventariocalidad",
-    "synchronize": true,
+    "synchronize": false,
     "logging": true,
     "entities": [
         "src/entity/**/*.ts"

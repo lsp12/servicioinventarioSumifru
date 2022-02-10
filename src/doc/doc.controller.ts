@@ -9,7 +9,8 @@ import {
   UploadedFile,
   UseInterceptors,
   UploadedFiles,
-  Res
+  Res,
+  StreamableFile
 } from '@nestjs/common';
 import {
   AnyFilesInterceptor,
@@ -23,6 +24,8 @@ import { UpdateDocDto } from './dto/update-doc.dto';
 import { Express } from 'express';
 import { diskStorage } from 'multer';
 import { editFileName } from './file-upload.utils';
+import { createReadStream } from 'fs';
+import { join } from 'path/posix';
 
 @Controller('doc')
 export class DocController {
@@ -61,10 +64,18 @@ export class DocController {
     return this.docService.findMantenimiento();
   }
 
-  @Get()
-  seeUploadedFile(@Res() res) {
-    return res.sendFile('HOJA DE VIDA COMPLETA Ing-2ae9.pdf', {
-      root: './files/Reportmantenimiento'
+  @Get('/mantenimiento/:id')
+  seeUploadedFile(@Param('id') id, @Res() res): StreamableFile {
+    console.log(id);
+    /* const file = createReadStream(join('./files/Reportmantenimiento', id));
+    console.log('holaaa ', new StreamableFile(file));
+    return new StreamableFile(file); */
+    return res.sendFile(id, {
+      root: './files/Reportmantenimiento',
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': 'attachment; filename="' + id + '"'
+      }
     });
   }
 
