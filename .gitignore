@@ -7,6 +7,7 @@ yarn.lock
 
 /src/main.ts
 
+/src/mian.ts
 ormconfig.json
 
 # Logs
