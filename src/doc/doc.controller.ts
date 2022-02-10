@@ -21,7 +21,7 @@ import {
 import { DocService } from './doc.service';
 import { CreateDocDto } from './dto/create-doc.dto';
 import { UpdateDocDto } from './dto/update-doc.dto';
-import { Express } from 'express';
+import { Express, Response } from 'express';
 import { diskStorage } from 'multer';
 import { editFileName } from './file-upload.utils';
 import { createReadStream } from 'fs';
@@ -65,18 +65,11 @@ export class DocController {
   }
 
   @Get('/mantenimiento/:id')
-  seeUploadedFile(@Param('id') id, @Res() res): StreamableFile {
-    console.log(id);
+  seeUploadedFile(@Param('id') id, @Res() res: Response) {
     /* const file = createReadStream(join('./files/Reportmantenimiento', id));
     console.log('holaaa ', new StreamableFile(file));
     return new StreamableFile(file); */
-    return res.sendFile(id, {
-      root: './files/Reportmantenimiento',
-      headers: {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': 'attachment; filename="' + id + '"'
-      }
-    });
+    return res.download(join('./files/Reportmantenimiento', id));
   }
 
   @Get(':id')
