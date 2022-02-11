@@ -1,11 +1,14 @@
 import { Inventory } from 'src/inventory/entities/inventory.entity';
+import { Maintenance } from 'src/maintenance/entities/maintenance.entity';
 import { Ranch } from 'src/ranch/entities/ranch.entity';
+import { Reporte } from 'src/reporte/entities/reporte.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn
 } from 'typeorm';
 
@@ -16,12 +19,6 @@ export class Responsable {
 
   @CreateDateColumn({ type: 'timestamp' })
   fechaIngreso: Date;
-
-  @Column()
-  reporte: string;
-
-  @Column()
-  estado: string;
 
   //muchos a uno
 
@@ -45,4 +42,10 @@ export class Responsable {
     onUpdate: 'CASCADE'
   })
   user: number;
+
+  /* @OneToMany(() => Reporte, (reporte) => reporte.responsable)
+  reportes: Reporte[]; */
+
+  /* @OneToMany(() => Maintenance, (Maintenance) => Maintenance.responsable)
+  maintenance: Maintenance[]; */
 }

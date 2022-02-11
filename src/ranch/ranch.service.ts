@@ -13,11 +13,16 @@ export class RanchService {
   ) {}
   async create(createRanchDto: CreateRanchDto) {
     const ranch = await this.ranchsRepository.create(createRanchDto);
-    return await this.ranchsRepository.save(ranch);
+    await this.ranchsRepository.save(ranch);
+    return await this.ranchsRepository.findOne(ranch.idHaciendad, {
+      relations: ['zona']
+    });
   }
 
   async findAll() {
-    const ranch = await this.ranchsRepository.find();
+    const ranch = await this.ranchsRepository.find({
+      relations: ['zona']
+    });
     if (!ranch) return [];
     return ranch;
   }

@@ -1,8 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { InventoryService } from 'src/inventory/inventory.service';
-import { RanchService } from 'src/ranch/ranch.service';
-import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 import { CreateHistoryDto } from './dto/create-history.dto';
 import { UpdateHistoryDto } from './dto/update-history.dto';
@@ -12,32 +9,29 @@ import { History } from './entities/history.entity';
 export class HistoryService {
   constructor(
     @InjectRepository(History)
-    private historyRepository: Repository<History>,
-    private usersService: UsersService,
-    private inventoryService: InventoryService,
-    private ranchService: RanchService
+    private historyRepository: Repository<History>
   ) {}
   async create(createHistoryDto: CreateHistoryDto) {
     const { inventario, ranch, user } = createHistoryDto;
-    const existInventory = await this.inventoryService.findOne(inventario);
-    const existRanch = await this.ranchService.findOne(ranch);
-    const existUser = await this.usersService.findOne(user);
 
     const history = this.historyRepository.create({
       ...createHistoryDto,
-      inventario: existInventory,
-      ranch: existRanch,
-      user: existUser
+      inventario,
+      ranch,
+      user
     });
     return this.historyRepository.save(history);
   }
 
   async findAll() {
-    const history = await this.historyRepository.find();
+    const history = await this.historyRepository.find({
+      order: { idHistorial: 'DESC' },
+      relations: ['user', 'inventario', 'ranch', 'ranch.zona']
+    });
     if (history.length > 0) {
       return history;
     } else {
-      throw new BadRequestException('No existen historiales');
+      return [];
     }
   }
 
@@ -50,7 +44,7 @@ export class HistoryService {
       },
       relations: ['user', 'inventory']
     });
-    if (!history) throw new BadRequestException('No existe el historial');
+    if (!history) return [];
     return history;
   }
 
@@ -59,15 +53,12 @@ export class HistoryService {
     if (!exist) throw new BadRequestException('No existe el historial');
 
     const { inventario, ranch, user } = updateHistoryDto;
-    const existInventory = await this.inventoryService.findOne(inventario);
-    const existRanch = await this.ranchService.findOne(ranch);
-    const existUser = await this.usersService.findOne(user);
 
     const history = this.historyRepository.create({
       ...updateHistoryDto,
-      inventario: existInventory,
-      ranch: existRanch,
-      user: existUser
+      inventario,
+      ranch,
+      user
     });
 
     await this.historyRepository.update(id, history);

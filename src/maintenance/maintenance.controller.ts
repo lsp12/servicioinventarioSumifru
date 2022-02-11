@@ -8,7 +8,7 @@ import {
   Put
 } from '@nestjs/common';
 import { MaintenanceService } from './maintenance.service';
-import { CreateMaintenanceDto } from './dto/create-maintenance.dto';
+import { CreateMaintenanceDto, GetToken } from './dto/create-maintenance.dto';
 import { UpdateMaintenanceDto } from './dto/update-maintenance.dto';
 
 @Controller('maintenance')
@@ -17,7 +17,8 @@ export class MaintenanceController {
 
   @Post()
   create(@Body() createMaintenanceDto: CreateMaintenanceDto) {
-    return this.maintenanceService.create(createMaintenanceDto);
+    console.log(createMaintenanceDto, 'DAatooooos');
+    return this.maintenanceService.createMaintenance(createMaintenanceDto);
   }
 
   @Get()
@@ -25,20 +26,25 @@ export class MaintenanceController {
     return this.maintenanceService.findAll();
   }
 
-  @Get(':id')
+  @Get('/user')
+  findByUser(@Body('token') user: GetToken) {
+    return this.maintenanceService.findByUser(+user.user);
+  }
+
+  @Get('/:id')
   findOne(@Param('id') id: string) {
     return this.maintenanceService.findOne(+id);
   }
 
-  @Put(':id')
+  @Put('/:id')
   update(
     @Param('id') id: string,
     @Body() updateMaintenanceDto: UpdateMaintenanceDto
   ) {
-    return this.maintenanceService.update(+id, updateMaintenanceDto);
+    return this.maintenanceService.UpdateI(+id, updateMaintenanceDto);
   }
 
-  @Delete(':id')
+  @Delete('/:id')
   remove(@Param('id') id: string) {
     return this.maintenanceService.remove(+id);
   }

@@ -19,21 +19,51 @@ export class InventoryService {
   ) {}
 
   async create(createInventoryDto: CreateInventoryDto) {
-    const { unitMd, provider, category } = createInventoryDto;
-    const unitMdEntity = await this.unitMdService.findOne(unitMd);
-    const providerEntity = await this.providerService.findOne(provider);
-    const categoryEntity = await this.categoryService.findOne(category);
-    /* const inventory = this.inventoryRepository.create({
-      ...createInventoryDto,
-      unitMd: unitMdEntity,
-      provider: providerEntity,
-      category: categoryEntity
-    }); */
-    return this.inventoryRepository.save(createInventoryDto);
+    const { unitMd, provider } = createInventoryDto;
+    const inventario = await this.inventoryRepository.save(createInventoryDto);
+    return await this.inventoryRepository.findOne(
+      {
+        idInventario: inventario.idInventario
+      },
+      {
+        relations: ['unitMd', 'provider', 'category']
+      }
+    );
   }
 
   async findAll() {
     const inventories = await this.inventoryRepository.find({
+      relations: ['unitMd', 'provider', 'category']
+    });
+    if (inventories.length > 0) {
+      return inventories;
+    } else {
+      throw new BadRequestException('No existen inventarios');
+    }
+  }
+
+  async findAllCount() {
+    const inventories = await this.inventoryRepository.count();
+    const inventoriesMantenimiento = await this.inventoryRepository.count({
+      where: { mantenimieto: true }
+    });
+    const inventoriesNoMantenimiento = await this.inventoryRepository.count({
+      where: { mantenimieto: false }
+    });
+    return {
+      total: inventories,
+      enMantenimiento: inventoriesMantenimiento,
+      enUso: inventoriesNoMantenimiento
+    };
+  }
+
+  async findByUser(id: number) {
+    const inventories = await this.inventoryRepository.find({
+      where: {
+        user: {
+          idUsuario: id
+        }
+      },
       relations: ['unitMd', 'provider', 'category']
     });
     if (inventories.length > 0) {
@@ -49,24 +79,44 @@ export class InventoryService {
     return inventory;
   }
 
+  async findByCategory(id: number) {
+    const inventories = await this.inventoryRepository.find({
+      relations: ['unitMd', 'provider', 'category'],
+      where: { category: { idCategoria: id } }
+    });
+    if (inventories.length > 0) {
+      return inventories;
+    } else {
+      return [];
+    }
+  }
+
+  async findMaintenanceItem() {
+    console.log('entro');
+    const inventories = await this.inventoryRepository.find({
+      where: { mantenimieto: false },
+      relations: ['unitMd', 'provider', 'category']
+    });
+    if (inventories.length > 0) {
+      return inventories;
+    } else {
+      return [];
+    }
+  }
+
   async update(id: number, updateInventoryDto: UpdateInventoryDto) {
     const exist = await this.inventoryRepository.findOne(id);
-
     if (!exist) throw new BadRequestException('No existe el inventario');
-
-    const { unitMd, provider, category } = updateInventoryDto;
-    const unitMdEntity = await this.unitMdService.findOne(unitMd);
-    const providerEntity = await this.providerService.findOne(provider);
-    const categoryEntity = await this.categoryService.findOne(category);
-    /* const inventory = this.inventoryRepository.create({
-      ...updateInventoryDto,
-      unitMd: unitMdEntity,
-      provider: providerEntity,
-      category: categoryEntity 
-    }); */
     await this.inventoryRepository.update(id, updateInventoryDto);
 
     return 'Inventario actualizado';
+  }
+
+  async updateMantenimieto(id: number, mantenimieto: boolean) {
+    const exist = await this.inventoryRepository.findOne(id);
+    if (!exist) throw new BadRequestException('No existe el inventario');
+    await this.inventoryRepository.update(id, { mantenimieto });
+    return 'Mantenimiento actualizado';
   }
 
   async remove(id: number) {

@@ -7,6 +7,6 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
   await app.listen(4000);
-  console.log('servidor corriendo en el puerto 3000');
+  console.log('servidor corriendo en el puerto 4000');
 }
 bootstrap();

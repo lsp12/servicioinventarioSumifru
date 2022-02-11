@@ -17,6 +17,9 @@ export class User {
   @Column()
   nombre: string;
 
+  @Column()
+  numCedula: string;
+
   @Column({ default: false })
   contraseña: string;
 

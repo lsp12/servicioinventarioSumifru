@@ -25,9 +25,27 @@ export class InventoryController {
     return this.inventoryService.findAll();
   }
 
-  @Get(':id')
+  @Get('/findByCategory/:category')
+  findByCategory(@Param('category') category: string) {
+    console.log('findByCategory-----------------------------------');
+    return this.inventoryService.findByCategory(+category);
+  }
+
+  @Get('/count')
+  count() {
+    return this.inventoryService.findAllCount();
+  }
+
+  /* @Get('/:id')
   findOne(@Param('id') id: string) {
+    console.log('findOne-----------------------------------');
     return this.inventoryService.findOne(+id);
+  }
+ */
+  @Get('/mantenimiento')
+  findMaintenanceItem() {
+    console.log('findMaintenanceItem-----------------------------------');
+    return this.inventoryService.findMaintenanceItem();
   }
 
   @Put(':id')
@@ -36,6 +54,11 @@ export class InventoryController {
     @Body() updateInventoryDto: UpdateInventoryDto
   ) {
     return this.inventoryService.update(+id, updateInventoryDto);
+  }
+
+  @Put('/updatemantenimieto/:id')
+  updateMantenimieto(@Param('id') id: string, @Body() mantenimieto: boolean) {
+    return this.inventoryService.updateMantenimieto(+id, mantenimieto);
   }
 
   @Delete(':id')

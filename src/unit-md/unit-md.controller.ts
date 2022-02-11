@@ -20,12 +20,6 @@ export class UnitMdController {
     return this.unitMdService.create(createUnitMdDto);
   }
 
-  @Post('/many')
-  createMany(@Body() createUnitMdDto: CreateUnitMdDto[]) {
-    console.log(createUnitMdDto);
-    /* return this.unitMdService.createMany(createUnitMdDto); */
-  }
-
   @Get()
   findAll() {
     return this.unitMdService.findAll();

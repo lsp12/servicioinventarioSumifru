@@ -13,7 +13,6 @@ export class UnitMdService {
   ) {}
 
   async create(createUnitMdDto: CreateUnitMdDto) {
-    console.log(createUnitMdDto);
     const existe = await this.unitMdsRepository.findOne({
       tipoUnida: createUnitMdDto.tipoUnida
     });
