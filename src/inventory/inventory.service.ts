@@ -12,23 +12,19 @@ import { Inventory } from './entities/inventory.entity';
 export class InventoryService {
   constructor(
     @InjectRepository(Inventory)
-    private inventoryRepository: Repository<Inventory>,
-    private categoryService: CategoryService,
-    private providerService: ProviderService,
-    private unitMdService: UnitMdService
+    private inventoryRepository: Repository<Inventory>
   ) {}
 
   async create(createInventoryDto: CreateInventoryDto) {
-    const { unitMd, provider } = createInventoryDto;
-    const inventario = await this.inventoryRepository.save(createInventoryDto);
-    return await this.inventoryRepository.findOne(
-      {
-        idInventario: inventario.idInventario
-      },
-      {
-        relations: ['unitMd', 'provider', 'category']
-      }
-    );
+    const { numSerie } = createInventoryDto;
+    const codes = numSerie.split(',');
+    await codes.map(async (code) => {
+      await this.inventoryRepository.save({
+        ...createInventoryDto,
+        numSerie: code
+      });
+    });
+    return 'Inventario creado';
   }
 
   async findAll() {
