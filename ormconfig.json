@@ -7,7 +7,7 @@
     "password": "",
     "database": "inventariocalidadesarrollo",
     "synchronize": false,
-    "logging": true,
+    "logging": false,
     "entities": [
         "src/entity/**/*.ts"
     ],

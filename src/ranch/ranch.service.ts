@@ -38,6 +38,19 @@ export class RanchService {
     return ranch;
   }
 
+  async findByZona(nombre: string) {
+    const ranch = await this.ranchsRepository.find({
+      relations: ['zona'],
+      where: {
+        zona: {
+          nombre
+        }
+      }
+    });
+    if (!ranch) throw new BadRequestException('No existe el ranch');
+    return ranch;
+  }
+
   async update(id: number, updateRanchDto: UpdateRanchDto) {
     const ranch = await this.ranchsRepository.findOne(id);
     if (!ranch) throw new BadRequestException('No existe el ranch');
