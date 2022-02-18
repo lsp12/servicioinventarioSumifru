@@ -35,8 +35,11 @@ export class ZonaService {
     return `This action returns a #${id} zona`;
   }
 
-  update(id: number, updateZonaDto: UpdateZonaDto) {
-    return `This action updates a #${id} zona`;
+  async update(id: number, updateZonaDto: UpdateZonaDto) {
+    const exist = await this.respository.findOne(id);
+    if (!exist) throw new BadRequestException('No existe la zona');
+    const update = this.respository.update(id, updateZonaDto);
+    return 'Zone actualizada';
   }
 
   async remove(id: number) {

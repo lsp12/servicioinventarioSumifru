@@ -28,7 +28,13 @@ export class ResponsableService {
         idResponsable: responsable.idResponsable
       },
       {
-        relations: ['user', 'ranch', 'ranch.zona', 'inventory']
+        relations: [
+          'user',
+          'ranch',
+          'ranch.zona',
+          'inventory',
+          'inventory.category'
+        ]
       }
     );
   }
@@ -68,6 +74,40 @@ export class ResponsableService {
         }
       },
       relations: ['user', 'ranch', 'inventory']
+    });
+    if (responsables.length > 0) {
+      return responsables;
+    } else {
+      return [];
+    }
+  }
+
+  async findByRanch(id: number) {
+    const responsables = await this.responsableRepository.find({
+      where: {
+        ranch: id
+      },
+      relations: [
+        'user',
+        'ranch',
+        'ranch.zona',
+        'inventory',
+        'inventory.category'
+      ]
+    });
+    if (responsables.length > 0) {
+      return responsables;
+    } else {
+      return [];
+    }
+  }
+
+  async findNotRelated() {
+    const responsables = await this.responsableRepository.find({
+      where: {
+        inventory: null
+      },
+      relations: ['user', 'ranch', 'inventory', 'inventory.category']
     });
     if (responsables.length > 0) {
       return responsables;

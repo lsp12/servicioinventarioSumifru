@@ -44,8 +44,12 @@ export class InventoryController {
  */
   @Get('/mantenimiento')
   findMaintenanceItem() {
-    console.log('findMaintenanceItem-----------------------------------');
     return this.inventoryService.findMaintenanceItem();
+  }
+
+  @Get('/findNotRelatedResponsable')
+  findNotRelatedResponsable() {
+    return this.inventoryService.findNotRelatedResponsable();
   }
 
   @Put(':id')

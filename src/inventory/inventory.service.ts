@@ -100,6 +100,17 @@ export class InventoryService {
     }
   }
 
+  async findNotRelatedResponsable() {
+    const inventories = await this.inventoryRepository.find({
+      relations: ['responsables']
+    });
+    if (inventories.length > 0) {
+      return inventories;
+    } else {
+      return [];
+    }
+  }
+
   async update(id: number, updateInventoryDto: UpdateInventoryDto) {
     const exist = await this.inventoryRepository.findOne(id);
     if (!exist) throw new BadRequestException('No existe el inventario');

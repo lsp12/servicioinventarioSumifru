@@ -30,9 +30,20 @@ export class ResponsableController {
     return user.token.user;
   }
 
+  @Get('/findByRanch/:id')
+  findByRanch(@Param('id') id: string) {
+    return this.responsableService.findByRanch(+id);
+  }
+
   @Get('/count/zona')
   findCountZona() {
     return this.responsableService.findCountZona();
+  }
+
+  @Get('/findNotRelated')
+  findNotRelated() {
+    console.log('findNotRelated');
+    return this.responsableService.findNotRelated();
   }
 
   @Get()

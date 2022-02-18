@@ -38,6 +38,7 @@ export class ZonaController {
 
   @Delete('/:id')
   remove(@Param('id') id: string) {
+    console.log(id, 'id');
     return this.zonaService.remove(+id);
   }
 }
