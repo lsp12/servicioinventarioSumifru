@@ -1,6 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HistoryService } from 'src/history/history.service';
+import { Inventory } from 'src/inventory/entities/inventory.entity';
+import { InventoryService } from 'src/inventory/inventory.service';
 import { ZonaService } from 'src/zona/zona.service';
 import { Repository } from 'typeorm';
 import { CreateResponsableDto } from './dto/create-responsable.dto';
@@ -13,7 +15,8 @@ export class ResponsableService {
     @InjectRepository(Responsable)
     private responsableRepository: Repository<Responsable>,
     private readonly historyService: HistoryService,
-    private readonly zonaService: ZonaService
+    private readonly zonaService: ZonaService,
+    private readonly inventoryService: InventoryService
   ) {}
   async create(createResponsableDto: CreateResponsableDto) {
     const responsable = this.responsableRepository.create(createResponsableDto);
@@ -23,6 +26,7 @@ export class ResponsableService {
       ranch: responsable.ranch,
       user: responsable.user
     });
+    await this.inventoryService.updateInUse(responsable.inventory, true);
     return await this.responsableRepository.findOne(
       {
         idResponsable: responsable.idResponsable
@@ -177,8 +181,15 @@ export class ResponsableService {
   }
 
   async remove(id: number) {
-    const exist = await this.responsableRepository.findOne(id);
+    const exist = await this.responsableRepository.findOne({
+      where: {
+        idResponsable: id
+      },
+      relations: ['inventory']
+    });
+    const inventory: Inventory = exist.inventory as unknown as Inventory;
     if (!exist) throw new BadRequestException('No existe el responsable');
+    await this.inventoryService.updateInUse(inventory.idInventario, false);
     await this.responsableRepository.delete(id);
     return 'Responsable eliminado';
   }

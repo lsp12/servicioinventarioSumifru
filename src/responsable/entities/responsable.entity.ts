@@ -7,8 +7,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn
 } from 'typeorm';
 
@@ -29,11 +31,12 @@ export class Responsable {
   })
   ranch: number;
 
-  @ManyToOne(() => Inventory, (inventory) => inventory.responsables, {
+  @OneToOne(() => Inventory, (inventory) => inventory.responsables, {
     cascade: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
   })
+  @JoinColumn()
   inventory: number;
 
   @ManyToOne(() => User, (user) => user.responsables, {

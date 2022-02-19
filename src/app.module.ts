@@ -26,6 +26,7 @@ import {ZonaModule} from './zona/zona.module';
 import { CategoryController } from './category/category.controller';
 import { DocModule } from './doc/doc.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { MandatedModule } from './mandated/mandated.module';
 
 @Module({
   imports: [
@@ -49,7 +50,8 @@ import { MulterModule } from '@nestjs/platform-express';
     DocModule,
     MulterModule.register({
       dest: './files',
-    })
+    }),
+    MandatedModule
     
   ],
   controllers: [AppController],

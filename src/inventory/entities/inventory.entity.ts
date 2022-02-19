@@ -10,6 +10,7 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn
 } from 'typeorm';
 
@@ -29,6 +30,9 @@ export class Inventory {
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
+
+  @Column({ type: 'boolean', default: false })
+  inUse: boolean;
 
   //muchos a uno
 
@@ -55,8 +59,8 @@ export class Inventory {
 
   //uno a muchos
 
-  @OneToMany(() => Responsable, (Responsable) => Responsable.inventory)
-  responsables: Responsable[];
+  @OneToOne(() => Responsable, (Responsable) => Responsable.inventory)
+  responsables: Responsable;
 
   @OneToMany(() => Responsable, (Responsable) => Responsable.inventory)
   histories: History[];

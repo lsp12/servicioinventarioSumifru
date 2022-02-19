@@ -5,9 +5,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Responsable } from './entities/responsable.entity';
 import { HistoryModule } from 'src/history/history.module';
 import { ZonaModule } from 'src/zona/zona.module';
+import { InventoryModule } from 'src/inventory/inventory.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Responsable]), HistoryModule, ZonaModule],
+  imports: [
+    TypeOrmModule.forFeature([Responsable]),
+    HistoryModule,
+    ZonaModule,
+    InventoryModule
+  ],
   controllers: [ResponsableController],
   providers: [ResponsableService]
 })

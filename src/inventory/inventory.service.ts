@@ -126,6 +126,13 @@ export class InventoryService {
     return 'Mantenimiento actualizado';
   }
 
+  async updateInUse(id: number, inUse: boolean) {
+    const inventory = await this.inventoryRepository.findOne(id);
+    if (!inventory) throw new BadRequestException('No existe el inventario');
+    await this.inventoryRepository.update(id, { inUse });
+    return 'Inventario actualizado';
+  }
+
   async remove(id: number) {
     const inventory = await this.inventoryRepository.findOne(id);
     if (!inventory) throw new BadRequestException('No existe el inventario');
