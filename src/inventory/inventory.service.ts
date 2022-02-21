@@ -18,6 +18,10 @@ export class InventoryService {
   async create(createInventoryDto: CreateInventoryDto) {
     const { numSerie } = createInventoryDto;
     const codes = numSerie.split(',');
+    const exist = await this.inventoryRepository.findOne({
+      where: { numSerie: codes }
+    });
+    if (exist) throw new BadRequestException('El inventario ya existe');
     await codes.map(async (code) => {
       await this.inventoryRepository.save({
         ...createInventoryDto,

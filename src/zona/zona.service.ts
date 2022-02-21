@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotAcceptableException
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateZonaDto } from './dto/create-zona.dto';
@@ -17,7 +22,8 @@ export class ZonaService {
         nombre: createZonaDto.nombre
       }
     });
-    if (exist) throw new BadRequestException('Ya existe la zona');
+    console.log('llego');
+    if (exist) throw new ConflictException('Ya existe la zona');
     const zona = this.respository.create(createZonaDto);
     return await this.respository.save(zona);
   }
