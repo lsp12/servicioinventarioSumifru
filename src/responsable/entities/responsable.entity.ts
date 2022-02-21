@@ -49,6 +49,6 @@ export class Responsable {
   /* @OneToMany(() => Reporte, (reporte) => reporte.responsable)
   reportes: Reporte[]; */
 
-  /* @OneToMany(() => Maintenance, (Maintenance) => Maintenance.responsable)
-  maintenance: Maintenance[]; */
+  @OneToMany(() => Maintenance, (Maintenance) => Maintenance.responsable)
+  maintenance: Maintenance[];
 }

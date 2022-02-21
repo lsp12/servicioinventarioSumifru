@@ -31,6 +31,11 @@ export class MaintenanceController {
     return this.maintenanceService.findByUser(+user.user);
   }
 
+  @Get('/findByRanch/:id')
+  findByRanch(@Param('id') id: string) {
+    return this.maintenanceService.findByRanch(+id);
+  }
+
   @Get('/:id')
   findOne(@Param('id') id: string) {
     return this.maintenanceService.findOne(+id);

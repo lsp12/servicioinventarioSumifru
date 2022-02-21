@@ -12,6 +12,9 @@ export class CreateMaintenanceDto {
   responsable: number; */
 
   @IsNumber()
+  responsable: number;
+
+  @IsNumber()
   inventory: number;
 }
 

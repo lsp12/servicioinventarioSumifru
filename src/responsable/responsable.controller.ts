@@ -56,6 +56,11 @@ export class ResponsableController {
     return this.responsableService.findOne(+id);
   }
 
+  @Get('/findByRanchMaintenance/:id')
+  findByRanchMaintenance(@Param('id') id: string) {
+    return this.responsableService.findByRanchMantenimiento(+id);
+  }
+
   @Put(':id')
   update(
     @Param('id') id: string,

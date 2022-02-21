@@ -164,6 +164,23 @@ export class ResponsableService {
     return response;
   }
 
+  async findByRanchMantenimiento(id: number) {
+    const responsables = await this.responsableRepository
+      .find({
+        where: {
+          ranch: id,
+          inventory: {
+            mantenimieto: false
+          }
+        },
+        relations: ['ranch', 'inventory']
+      })
+      .catch((err) => {
+        throw new BadRequestException(err.message, err.statusCode);
+      });
+    return responsables;
+  }
+
   async update(id: number, updateResponsableDto: UpdateResponsableDto) {
     const exist = await this.responsableRepository.findOne(id);
     if (!exist) throw new BadRequestException('No existe el responsable');

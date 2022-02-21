@@ -14,33 +14,24 @@ export class MaintenanceService {
     private readonly inventoryService: InventoryService
   ) {}
 
-  async create(createMaintenanceDto: CreateMaintenanceDto) {
-    console.log(createMaintenanceDto, 'createMaintenanceDto');
+  async createMaintenance(createMaintenanceDto: CreateMaintenanceDto) {
     const exist = await this.maintenanceRepository.findOne({
       where: {
-        responsable: {
-          inventory: createMaintenanceDto.inventory
-        }
+        responsable: createMaintenanceDto.responsable
       },
-      relations: ['responsable', 'responsable.inventory'],
+      relations: ['responsable'],
       order: {
         idMantenimiento: 'DESC'
       }
     });
-    exist.numMantenimiento += 1;
-
-    createMaintenanceDto.numMantenimiento = exist?.numMantenimiento | 0;
-    console.log(
-      createMaintenanceDto,
-      'maintenance-----------------------------'
-    );
+    if (exist) exist.numMantenimiento += 1;
+    createMaintenanceDto.numMantenimiento = exist?.numMantenimiento | 1;
     const maintenance = this.maintenanceRepository.create(createMaintenanceDto);
-    console.log(maintenance, 'maintenance-----------------------------');
-    await this.maintenanceRepository.save(maintenance);
     await this.inventoryService.updateMantenimieto(
       createMaintenanceDto.inventory,
       true
     );
+    await this.maintenanceRepository.save(maintenance);
     return await this.maintenanceRepository.findOne(
       {
         idMantenimiento: maintenance.idMantenimiento
@@ -51,39 +42,9 @@ export class MaintenanceService {
     );
   }
 
-  async createMaintenance(createMaintenanceDto: CreateMaintenanceDto) {
-    console.log(createMaintenanceDto, 'createMaintenanceDto');
-    const exist = await this.maintenanceRepository.findOne({
-      where: {
-        inventory: createMaintenanceDto.inventory
-      },
-      relations: ['inventory'],
-      order: {
-        idMantenimiento: 'DESC'
-      }
-    });
-    if (exist) exist.numMantenimiento += 1;
-    createMaintenanceDto.numMantenimiento = exist?.numMantenimiento | 0;
-    const maintenance = this.maintenanceRepository.create(createMaintenanceDto);
-    console.log(maintenance);
-    await this.inventoryService.updateMantenimieto(
-      createMaintenanceDto.inventory,
-      true
-    );
-    await this.maintenanceRepository.save(maintenance);
-    return await this.maintenanceRepository.findOne(
-      {
-        idMantenimiento: maintenance.idMantenimiento
-      },
-      {
-        relations: ['inventory']
-      }
-    );
-  }
-
   async findAll() {
     const maintenances = await this.maintenanceRepository.find({
-      relations: ['inventory']
+      relations: ['responsable', 'responsable.inventory']
     });
     return maintenances;
   }
@@ -119,6 +80,21 @@ export class MaintenanceService {
     return maintenance;
   }
 
+  async findByRanch(id: number) {
+    const maintenances = await this.maintenanceRepository.find({
+      where: {
+        responsable: {
+          ranch: id
+        }
+      },
+      relations: ['responsable', 'responsable.inventory'],
+      order: {
+        idMantenimiento: 'DESC'
+      }
+    });
+    return maintenances;
+  }
+
   async update(id: number, updateMaintenanceDto: UpdateMaintenanceDto) {
     const maintenance = await this.maintenanceRepository.findOne(id);
     if (!maintenance)
@@ -147,16 +123,18 @@ export class MaintenanceService {
     await this.maintenanceRepository.update(id, {
       estado: true
     });
-    await this.inventoryService.updateMantenimieto(
+    console.log('estamos hacas', updateMaintenanceDto);
+    const ivnentoryupdate = await this.inventoryService.updateMantenimieto(
       updateMaintenanceDto.inventory,
       false
     );
+    console.log('estamos aqui', ivnentoryupdate);
     return await this.maintenanceRepository.findOne(
       {
         idMantenimiento: id
       },
       {
-        relations: ['inventory']
+        relations: ['responsable', 'responsable.inventory']
       }
     );
   }

@@ -65,8 +65,8 @@ export class Inventory {
   @OneToMany(() => Responsable, (Responsable) => Responsable.inventory)
   histories: History[];
 
-  @OneToMany(() => Maintenance, (Maintenance) => Maintenance.inventory)
-  maintenance: Maintenance[];
+  /* @OneToMany(() => Maintenance, (Maintenance) => Maintenance.inventory)
+  maintenance: Maintenance[]; */
 
   @OneToMany(() => Reporte, (Reporte) => Reporte.inventory)
   reporte: Reporte[];

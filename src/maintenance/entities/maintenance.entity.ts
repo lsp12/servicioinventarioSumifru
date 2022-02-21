@@ -14,7 +14,7 @@ export class Maintenance {
   @PrimaryGeneratedColumn()
   idMantenimiento: number;
 
-  @Column()
+  @Column({ default: 1 })
   numMantenimiento: number;
 
   @Column()
@@ -33,10 +33,10 @@ export class Maintenance {
     cascade: true
   })
   responsable: number; */
-  @ManyToOne(() => Inventory, (Inventory) => Inventory.maintenance, {
+  @ManyToOne(() => Responsable, (Responsable) => Responsable.maintenance, {
     cascade: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
   })
-  inventory: number;
+  responsable: number;
 }
