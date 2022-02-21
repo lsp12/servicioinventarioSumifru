@@ -78,7 +78,7 @@ export class InventoryService {
   async findByCategory(id: number) {
     const inventories = await this.inventoryRepository.find({
       relations: ['unitMd', 'provider', 'category'],
-      where: { category: { idCategoria: id } }
+      where: { category: { idCategoria: id }, inUse: false }
     });
     if (inventories.length > 0) {
       return inventories;
@@ -103,6 +103,18 @@ export class InventoryService {
   async findNotRelatedResponsable() {
     const inventories = await this.inventoryRepository.find({
       relations: ['responsables']
+    });
+    if (inventories.length > 0) {
+      return inventories;
+    } else {
+      return [];
+    }
+  }
+
+  async findByInUse() {
+    const inventories = await this.inventoryRepository.find({
+      where: { inUse: false },
+      relations: ['unitMd', 'provider', 'category']
     });
     if (inventories.length > 0) {
       return inventories;
