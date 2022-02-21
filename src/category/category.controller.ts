@@ -23,7 +23,7 @@ export class CategoryController {
 
   @Get()
   findAll(@Request() req) {
-    console.log(req.headers.id, req.headers.role, 'este es den con tron');
+    console.log(req.headers.id, req.headers.role, 'Token');
     return this.categoryService.findAll();
   }
 
