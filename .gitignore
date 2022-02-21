@@ -5,8 +5,6 @@ yarn.lock
 /files
 
 
-/src/main.ts
-
 /src/mian.ts
 ormconfig.json
 
