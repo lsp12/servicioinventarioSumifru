@@ -47,13 +47,17 @@ export class InventoryService {
     const inventoriesMantenimiento = await this.inventoryRepository.count({
       where: { mantenimieto: true }
     });
-    const inventoriesNoMantenimiento = await this.inventoryRepository.count({
-      where: { mantenimieto: false }
+    const inventoriesInUse = await this.inventoryRepository.count({
+      where: { inUse: true, mantenimieto: false }
+    });
+    const inventoriesNoInUse = await this.inventoryRepository.count({
+      where: { inUse: false, mantenimieto: false }
     });
     return {
       total: inventories,
       enMantenimiento: inventoriesMantenimiento,
-      enUso: inventoriesNoMantenimiento
+      enUso: inventoriesInUse,
+      noEnUso: inventoriesNoInUse
     };
   }
 
