@@ -9,7 +9,7 @@ import { Role } from './entities/role.entity';
 export class RoleService {
   constructor(
     @InjectRepository(Role)
-    private RolesRepository: Repository<Role>
+    private RolesRepository: Repository<Role>,
   ) {}
 
   async create(createRoleDto: CreateRoleDto) {

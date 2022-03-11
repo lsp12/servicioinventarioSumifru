@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
   Request,
-  Headers
+  Headers,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -32,9 +32,10 @@ export class UsersController {
 
   @Get('/myuser')
   myUser(@Headers() headers) {
+    console.log(headers);
     return {
       id: headers.id,
-      role: headers.role
+      role: headers.role,
     };
   }
 

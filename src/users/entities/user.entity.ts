@@ -1,12 +1,14 @@
 import { History } from 'src/history/entities/history.entity';
 import { Responsable } from 'src/responsable/entities/responsable.entity';
+import { Role } from 'src/role/entities/role.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -23,9 +25,6 @@ export class User {
   @Column({ default: false })
   contraseña: string;
 
-  @Column()
-  role: string;
-
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
@@ -37,4 +36,7 @@ export class User {
 
   @OneToMany(() => History, (History) => History.user)
   histories: History[];
+
+  @ManyToOne(() => Role, (Role) => Role.users)
+  role: number | Role;
 }
