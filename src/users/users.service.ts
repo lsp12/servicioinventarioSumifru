@@ -17,6 +17,7 @@ export class UsersService {
 
   generateAuthToken(user: User) {
     const { role } = user;
+    console.log('es un role', role instanceof Role);
     //verificar si rol es tipo Role
     if (role instanceof Role) {
       const token = jwt.sign(

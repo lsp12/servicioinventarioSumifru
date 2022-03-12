@@ -5,13 +5,13 @@ import {
   Body,
   Param,
   Delete,
-  Put
+  Put,
 } from '@nestjs/common';
 import { ResponsableService } from './responsable.service';
 import {
   CreateResponsableDto,
   GetToken,
-  useDto
+  useDto,
 } from './dto/create-responsable.dto';
 import { UpdateResponsableDto } from './dto/update-responsable.dto';
 
@@ -64,7 +64,7 @@ export class ResponsableController {
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() updateResponsableDto: UpdateResponsableDto
+    @Body() updateResponsableDto: UpdateResponsableDto,
   ) {
     return this.responsableService.update(+id, updateResponsableDto);
   }
