@@ -5,7 +5,7 @@ import {
   Body,
   Patch,
   Param,
-  Delete
+  Delete,
 } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/create-role.dto';

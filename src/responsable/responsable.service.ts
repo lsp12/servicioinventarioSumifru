@@ -16,7 +16,7 @@ export class ResponsableService {
     private responsableRepository: Repository<Responsable>,
     private readonly historyService: HistoryService,
     private readonly zonaService: ZonaService,
-    private readonly inventoryService: InventoryService
+    private readonly inventoryService: InventoryService,
   ) {}
   async create(createResponsableDto: CreateResponsableDto) {
     const responsable = this.responsableRepository.create(createResponsableDto);
@@ -24,12 +24,12 @@ export class ResponsableService {
     await this.historyService.create({
       inventario: responsable.inventory,
       ranch: responsable.ranch,
-      user: responsable.user
+      user: responsable.user,
     });
     await this.inventoryService.updateInUse(responsable.inventory, true);
     return await this.responsableRepository.findOne(
       {
-        idResponsable: responsable.idResponsable
+        idResponsable: responsable.idResponsable,
       },
       {
         relations: [
@@ -37,9 +37,9 @@ export class ResponsableService {
           'ranch',
           'ranch.zona',
           'inventory',
-          'inventory.category'
-        ]
-      }
+          'inventory.category',
+        ],
+      },
     );
   }
 
@@ -50,8 +50,8 @@ export class ResponsableService {
         'ranch',
         'ranch.zona',
         'inventory',
-        'inventory.category'
-      ]
+        'inventory.category',
+      ],
     });
     return responsables;
   }
@@ -59,9 +59,9 @@ export class ResponsableService {
   async findOne(id: number) {
     const responsable = await this.responsableRepository.find({
       where: {
-        idResponsable: id
+        idResponsable: id,
       },
-      relations: ['user', 'ranch', 'inventory']
+      relations: ['user', 'ranch', 'inventory'],
     });
     if (!responsable) throw new BadRequestException('No existe el responsable');
     return responsable;
@@ -71,13 +71,13 @@ export class ResponsableService {
     const responsables = await this.responsableRepository.find({
       where: {
         user: {
-          idUsuario: id
+          idUsuario: id,
         },
         inventory: {
-          mantenimieto: false
-        }
+          mantenimieto: false,
+        },
       },
-      relations: ['user', 'ranch', 'inventory']
+      relations: ['user', 'ranch', 'inventory'],
     });
     if (responsables.length > 0) {
       return responsables;
@@ -89,15 +89,15 @@ export class ResponsableService {
   async findByRanch(id: number) {
     const responsables = await this.responsableRepository.find({
       where: {
-        ranch: id
+        ranch: id,
       },
       relations: [
         'user',
         'ranch',
         'ranch.zona',
         'inventory',
-        'inventory.category'
-      ]
+        'inventory.category',
+      ],
     });
     if (responsables.length > 0) {
       return responsables;
@@ -109,9 +109,9 @@ export class ResponsableService {
   async findNotRelated() {
     const responsables = await this.responsableRepository.find({
       where: {
-        inventory: null
+        inventory: null,
       },
-      relations: ['user', 'ranch', 'inventory', 'inventory.category']
+      relations: ['user', 'ranch', 'inventory', 'inventory.category'],
     });
     if (responsables.length > 0) {
       return responsables;
@@ -126,38 +126,38 @@ export class ResponsableService {
       const mantenimietoTrue = await this.responsableRepository.count({
         where: {
           ranch: {
-            zona: zona.idZona
+            zona: zona.idZona,
           },
           inventory: {
-            mantenimieto: true
-          }
+            mantenimieto: true,
+          },
         },
-        relations: ['ranch', 'ranch.zona', 'inventory']
+        relations: ['ranch', 'ranch.zona', 'inventory'],
       });
       const mantenimietoFalse = await this.responsableRepository.count({
         where: {
           ranch: {
-            zona: zona.idZona
+            zona: zona.idZona,
           },
           inventory: {
-            mantenimieto: false
-          }
+            mantenimieto: false,
+          },
         },
-        relations: ['ranch', 'ranch.zona', 'inventory']
+        relations: ['ranch', 'ranch.zona', 'inventory'],
       });
       const inventarioTotal = await this.responsableRepository.count({
         where: {
           ranch: {
-            zona: zona.idZona
-          }
+            zona: zona.idZona,
+          },
         },
-        relations: ['ranch', 'ranch.zona', 'inventory']
+        relations: ['ranch', 'ranch.zona', 'inventory'],
       });
       return {
         zona: zona,
         inventarioTotal,
         mantenimietoTrue,
-        mantenimietoFalse
+        mantenimietoFalse,
       };
     });
     const response = await Promise.all(find);
@@ -170,10 +170,10 @@ export class ResponsableService {
         where: {
           ranch: id,
           inventory: {
-            mantenimieto: false
-          }
+            mantenimieto: false,
+          },
         },
-        relations: ['ranch', 'inventory']
+        relations: ['ranch', 'inventory'],
       })
       .catch((err) => {
         throw new BadRequestException(err.message, err.statusCode);
@@ -187,12 +187,12 @@ export class ResponsableService {
     await this.responsableRepository.update(id, {
       user: updateResponsableDto.user,
       ranch: updateResponsableDto.ranch,
-      inventory: updateResponsableDto.inventory
+      inventory: updateResponsableDto.inventory,
     });
     await this.historyService.create({
       inventario: updateResponsableDto.inventory,
       ranch: updateResponsableDto.ranch,
-      user: updateResponsableDto.user
+      user: updateResponsableDto.user,
     });
     return 'Responsable actualizado';
   }
@@ -200,9 +200,9 @@ export class ResponsableService {
   async remove(id: number) {
     const exist = await this.responsableRepository.findOne({
       where: {
-        idResponsable: id
+        idResponsable: id,
       },
-      relations: ['inventory']
+      relations: ['inventory'],
     });
     const inventory: Inventory = exist.inventory as unknown as Inventory;
     if (!exist) throw new BadRequestException('No existe el responsable');

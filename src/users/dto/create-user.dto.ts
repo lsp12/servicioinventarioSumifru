@@ -9,7 +9,6 @@ export class CreateUserDto {
   @IsString()
   numCedula: string;
 
-  @IsString()
   @IsOptional()
   role: number | Role;
 

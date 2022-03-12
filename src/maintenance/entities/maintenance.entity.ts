@@ -6,7 +6,7 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -36,7 +36,7 @@ export class Maintenance {
   @ManyToOne(() => Responsable, (Responsable) => Responsable.maintenance, {
     cascade: true,
     onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
+    onUpdate: 'CASCADE',
   })
   responsable: number;
 }
