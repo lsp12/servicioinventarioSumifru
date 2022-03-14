@@ -1,6 +1,9 @@
+import { Assignment } from 'src/assignment/entities/assignment.entity';
 import { History } from 'src/history/entities/history.entity';
+import { Ranch } from 'src/ranch/entities/ranch.entity';
 import { Responsable } from 'src/responsable/entities/responsable.entity';
 import { Role } from 'src/role/entities/role.entity';
+import { Zona } from 'src/zona/entities/zona.entity';
 import {
   Column,
   CreateDateColumn,
@@ -39,4 +42,16 @@ export class User {
 
   @ManyToOne(() => Role, (Role) => Role.users)
   role: number | Role;
+
+  @OneToMany(() => Zona, (Zona) => Zona.users)
+  zona: Zona[];
+
+  @Column({ default: true })
+  isActive: boolean;
+
+  @Column({ default: false })
+  fullAccess: boolean;
+
+  @OneToMany(() => Assignment, (Assignment) => Assignment.user)
+  assignments: Assignment[];
 }

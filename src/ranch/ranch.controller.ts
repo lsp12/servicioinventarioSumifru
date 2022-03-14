@@ -5,7 +5,7 @@ import {
   Body,
   Param,
   Delete,
-  Put
+  Put,
 } from '@nestjs/common';
 import { RanchService } from './ranch.service';
 import { CreateRanchDto } from './dto/create-ranch.dto';
@@ -29,6 +29,11 @@ export class RanchController {
   findByZona(@Param('nombre') nombre: string) {
     return this.ranchService.findByZona(nombre);
   }
+
+  /* @Get('/user/:id')
+  findByUser(@Param('id') id: string) {
+    return this.ranchService.findByUser(+id);
+  } */
 
   @Get(':id')
   findOne(@Param('id') id: string) {

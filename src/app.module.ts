@@ -31,6 +31,7 @@ import { UnitMdModule } from './unit-md/unit-md.module';
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
 import { ZonaModule } from './zona/zona.module';
+import { AssignmentModule } from './assignment/assignment.module';
 
 @Module({
   imports: [
@@ -57,6 +58,7 @@ import { ZonaModule } from './zona/zona.module';
       dest: './files',
     }),
     MandatedModule,
+    AssignmentModule,
   ],
   controllers: [AppController],
   providers: [

@@ -9,19 +9,19 @@ import { Ranch } from './entities/ranch.entity';
 export class RanchService {
   constructor(
     @InjectRepository(Ranch)
-    private ranchsRepository: Repository<Ranch>
+    private ranchsRepository: Repository<Ranch>,
   ) {}
   async create(createRanchDto: CreateRanchDto) {
     const ranch = await this.ranchsRepository.create(createRanchDto);
     await this.ranchsRepository.save(ranch);
     return await this.ranchsRepository.findOne(ranch.idHaciendad, {
-      relations: ['zona']
+      relations: ['zona'],
     });
   }
 
   async findAll() {
     const ranch = await this.ranchsRepository.find({
-      relations: ['zona']
+      relations: ['zona'],
     });
     if (!ranch) return [];
     return ranch;
@@ -43,13 +43,25 @@ export class RanchService {
       relations: ['zona'],
       where: {
         zona: {
-          nombre
-        }
-      }
+          nombre,
+        },
+      },
     });
     if (!ranch) throw new BadRequestException('No existe el ranch');
     return ranch;
   }
+
+  /* async findByUser(id: number) {
+    const ranch = await this.ranchsRepository.find({
+      where: {
+        assignments: {
+          user: id,
+        },
+      },
+      relations: ['assignments', 'assignments.user'],
+    });
+    return ranch;
+  } */
 
   async update(id: number, updateRanchDto: UpdateRanchDto) {
     const ranch = await this.ranchsRepository.findOne(id);

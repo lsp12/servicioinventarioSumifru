@@ -32,7 +32,7 @@ export class UsersController {
 
   @Get('/myuser')
   myUser(@Headers() headers) {
-    console.log(headers);
+    return this.usersService.findOne(headers.id);
     return {
       id: headers.id,
       role: headers.role,

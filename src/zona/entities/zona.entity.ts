@@ -1,5 +1,12 @@
 import { Ranch } from 'src/ranch/entities/ranch.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Zona {
@@ -11,6 +18,9 @@ export class Zona {
 
   @OneToMany(() => Ranch, (Ranch) => Ranch.zona)
   ranch: Ranch[];
+
+  @ManyToOne(() => User, (User) => User.zona)
+  users: number;
 }
 
 /* Entity();
