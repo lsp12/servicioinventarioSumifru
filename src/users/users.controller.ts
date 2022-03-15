@@ -44,6 +44,11 @@ export class UsersController {
     return this.usersService.findByUser(+user.token.user);
   }
 
+  @Get('/role/:role')
+  findByRole(@Param('role') role: string) {
+    return this.usersService.findByRole(role);
+  }
+
   @Get()
   findAll() {
     return this.usersService.findAll();

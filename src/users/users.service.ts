@@ -90,6 +90,18 @@ export class UsersService {
     return await this.usersRepository.find({ nombre });
   }
 
+  async findByRole(role: string) {
+    const users = await this.usersRepository.find({
+      where: {
+        role: {
+          rol: role,
+        },
+      },
+      relations: ['role'],
+    });
+    return users;
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto) {
     const user = await this.usersRepository.findOne(id);
     if (user) {

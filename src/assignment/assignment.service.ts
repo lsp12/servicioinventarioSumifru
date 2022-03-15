@@ -25,11 +25,24 @@ export class AssignmentService {
   }
 
   async findByUser(id: number) {
-    const assignment = await this.assignmentsRepository.findOne({
+    const assignment = await this.assignmentsRepository.find({
       where: {
         user: id,
       },
+      order: {
+        ranch: 'ASC',
+      },
       relations: ['ranch', 'ranch.zona'],
+    });
+    return assignment;
+  }
+
+  async findByRanch(id: number) {
+    const assignment = await this.assignmentsRepository.find({
+      where: {
+        ranch: id,
+      },
+      relations: ['user', 'user.role'],
     });
     return assignment;
   }

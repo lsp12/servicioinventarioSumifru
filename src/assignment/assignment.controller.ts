@@ -30,6 +30,11 @@ export class AssignmentController {
     return this.assignmentService.findByUser(+id);
   }
 
+  @Get('/ranch/:id')
+  findByRanch(@Param('id') id: string) {
+    return this.assignmentService.findByRanch(+id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.assignmentService.findOne(+id);

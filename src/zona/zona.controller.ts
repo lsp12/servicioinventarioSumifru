@@ -6,7 +6,7 @@ import {
   Patch,
   Param,
   Delete,
-  Put
+  Put,
 } from '@nestjs/common';
 import { ZonaService } from './zona.service';
 import { CreateZonaDto } from './dto/create-zona.dto';
@@ -24,6 +24,11 @@ export class ZonaController {
   @Get()
   findAll() {
     return this.zonaService.findAll();
+  }
+
+  @Get('/user/:id')
+  findByUser(@Param('id') id: string) {
+    return this.zonaService.findByUser(+id);
   }
 
   @Get(':id')

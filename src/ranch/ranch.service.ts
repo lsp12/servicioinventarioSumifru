@@ -51,18 +51,6 @@ export class RanchService {
     return ranch;
   }
 
-  /* async findByUser(id: number) {
-    const ranch = await this.ranchsRepository.find({
-      where: {
-        assignments: {
-          user: id,
-        },
-      },
-      relations: ['assignments', 'assignments.user'],
-    });
-    return ranch;
-  } */
-
   async update(id: number, updateRanchDto: UpdateRanchDto) {
     const ranch = await this.ranchsRepository.findOne(id);
     if (!ranch) throw new BadRequestException('No existe el ranch');

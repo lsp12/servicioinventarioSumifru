@@ -30,11 +30,6 @@ export class RanchController {
     return this.ranchService.findByZona(nombre);
   }
 
-  /* @Get('/user/:id')
-  findByUser(@Param('id') id: string) {
-    return this.ranchService.findByUser(+id);
-  } */
-
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.ranchService.findOne(+id);
