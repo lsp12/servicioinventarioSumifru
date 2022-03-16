@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
@@ -13,6 +13,15 @@ export class AssignmentService {
   ) {}
 
   async create(createAssignmentDto: CreateAssignmentDto) {
+    const exist = await this.assignmentsRepository.findOne({
+      where: {
+        ranch: createAssignmentDto.ranch,
+        user: createAssignmentDto.user,
+      },
+    });
+    if (exist) {
+      throw new BadRequestException('Assignment already exists');
+    }
     const assignment = await this.assignmentsRepository.create(
       createAssignmentDto,
     );
@@ -25,7 +34,7 @@ export class AssignmentService {
   }
 
   async findByUser(id: number) {
-    const assignment = await this.assignmentsRepository.find({
+    const assignment = await this.assignmentsRepository.findOne({
       where: {
         user: id,
       },
