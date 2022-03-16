@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateZonaDto } from './dto/create-zona.dto';
-import { UpdateZonaDto } from './dto/update-zona.dto';
+import { UpdateUser, UpdateZonaDto } from './dto/update-zona.dto';
 import { Zona } from './entities/zona.entity';
 
 @Injectable()
@@ -55,7 +55,25 @@ export class ZonaService {
   async update(id: number, updateZonaDto: UpdateZonaDto) {
     const exist = await this.respository.findOne(id);
     if (!exist) throw new BadRequestException('No existe la zona');
-    const update = this.respository.update(id, updateZonaDto);
+    console.log(updateZonaDto);
+    this.respository.update(id, {
+      nombre: updateZonaDto.nombre,
+      users: updateZonaDto.users,
+    });
+    return 'Zone actualizada';
+  }
+
+  async updateUser(id: number, updateZonaDto: UpdateUser) {
+    const exist = await this.respository.findOne({
+      where: {
+        idZona: id,
+        users: updateZonaDto.users,
+      },
+    });
+    if (exist) throw new BadRequestException('Ya hay un Encargado de la zona');
+    this.respository.update(id, {
+      users: updateZonaDto.users,
+    });
     return 'Zone actualizada';
   }
 
