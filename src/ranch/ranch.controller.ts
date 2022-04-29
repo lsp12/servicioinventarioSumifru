@@ -22,7 +22,6 @@ export class RanchController {
 
   @Get()
   findAll() {
-    console.log('findAll');
     return this.ranchService.findAll();
   }
 
