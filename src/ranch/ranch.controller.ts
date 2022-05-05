@@ -27,6 +27,7 @@ export class RanchController {
 
   @Get('/zona/:nombre')
   findByZona(@Param('nombre') nombre: string) {
+    console.log('a');
     return this.ranchService.findByZona(nombre);
   }
 
