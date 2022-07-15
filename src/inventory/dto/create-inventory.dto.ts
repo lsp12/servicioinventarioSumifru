@@ -15,4 +15,7 @@ export class CreateInventoryDto {
 
   @IsNumber()
   provider: number;
+
+  @IsOptional()
+  estado: string;
 }

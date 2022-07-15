@@ -1,4 +1,5 @@
 import { Category } from 'src/category/entities/category.entity';
+import { History as Hi } from 'src/history/entities/history.entity';
 import { Maintenance } from 'src/maintenance/entities/maintenance.entity';
 import { Provider } from 'src/provider/entities/provider.entity';
 import { Reporte } from 'src/reporte/entities/reporte.entity';
@@ -11,7 +12,7 @@ import {
   ManyToOne,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity()
@@ -21,6 +22,9 @@ export class Inventory {
 
   @Column()
   numSerie: string;
+
+  @Column({ default: 'buen estado' })
+  estado: string;
 
   @Column()
   nombreProducto: string;
@@ -39,21 +43,21 @@ export class Inventory {
   @ManyToOne(() => Category, (category) => category.inventories, {
     cascade: true,
     onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
+    onUpdate: 'CASCADE',
   })
   category: number;
 
   @ManyToOne(() => UnitMd, (UnitMd) => UnitMd.inventories, {
     cascade: true,
     onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
+    onUpdate: 'CASCADE',
   })
   unitMd: number;
 
   @ManyToOne(() => Provider, (Provider) => Provider.inventories, {
     cascade: true,
     onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
+    onUpdate: 'CASCADE',
   })
   provider: number;
 
@@ -62,8 +66,8 @@ export class Inventory {
   @OneToOne(() => Responsable, (Responsable) => Responsable.inventory)
   responsables: Responsable;
 
-  @OneToMany(() => Responsable, (Responsable) => Responsable.inventory)
-  histories: History[];
+  @OneToMany(() => Hi, (Hi) => Hi.inventario)
+  histories: Hi[];
 
   /* @OneToMany(() => Maintenance, (Maintenance) => Maintenance.inventory)
   maintenance: Maintenance[]; */

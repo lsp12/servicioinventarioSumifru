@@ -5,7 +5,7 @@ import {
   Body,
   Param,
   Delete,
-  Put
+  Put,
 } from '@nestjs/common';
 import { InventoryService } from './inventory.service';
 import { CreateInventoryDto } from './dto/create-inventory.dto';
@@ -28,6 +28,11 @@ export class InventoryController {
   @Get('/findByCategory/:category')
   findByCategory(@Param('category') category: string) {
     return this.inventoryService.findByCategory(+category);
+  }
+
+  @Get('/findLocation')
+  findLocation() {
+    return this.inventoryService.findLocation();
   }
 
   @Get('/count')
@@ -53,7 +58,7 @@ export class InventoryController {
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() updateInventoryDto: UpdateInventoryDto
+    @Body() updateInventoryDto: UpdateInventoryDto,
   ) {
     return this.inventoryService.update(+id, updateInventoryDto);
   }

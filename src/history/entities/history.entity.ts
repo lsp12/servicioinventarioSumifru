@@ -12,23 +12,20 @@ export class History {
   fechaMovimiento: Date;
 
   @ManyToOne(() => Inventory, (inventory) => inventory.histories, {
-    cascade: true,
     onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
+    onUpdate: 'CASCADE',
   })
   inventario: number;
 
   @ManyToOne(() => User, (user) => user.histories, {
-    cascade: true,
     onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
+    onUpdate: 'CASCADE',
   })
   user: number;
 
   @ManyToOne(() => Ranch, (ranch) => ranch.histories, {
-    cascade: true,
     onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
+    onUpdate: 'CASCADE',
   })
   ranch: number;
 }

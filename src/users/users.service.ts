@@ -42,6 +42,7 @@ export class UsersService {
   }
 
   async login(login: CreateUserDto) {
+    console.log('llego');
     const user = await this.usersRepository.findOne(
       {
         numCedula: login.numCedula,

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CategoryService } from 'src/category/category.service';
 import { ProviderService } from 'src/provider/provider.service';
 import { UnitMdService } from 'src/unit-md/unit-md.service';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CreateInventoryDto } from './dto/create-inventory.dto';
 import { UpdateInventoryDto } from './dto/update-inventory.dto';
 import { Inventory } from './entities/inventory.entity';
@@ -12,20 +12,23 @@ import { Inventory } from './entities/inventory.entity';
 export class InventoryService {
   constructor(
     @InjectRepository(Inventory)
-    private inventoryRepository: Repository<Inventory>
+    private inventoryRepository: Repository<Inventory>,
   ) {}
 
   async create(createInventoryDto: CreateInventoryDto) {
+    console.log(createInventoryDto);
     const { numSerie } = createInventoryDto;
     const codes = numSerie.split(',');
+    console.log(codes);
     const exist = await this.inventoryRepository.findOne({
-      where: { numSerie: codes }
+      where: { numSerie: In(codes) },
     });
+    console.log(exist);
     if (exist) throw new BadRequestException('El inventario ya existe');
     await codes.map(async (code) => {
       await this.inventoryRepository.save({
         ...createInventoryDto,
-        numSerie: code
+        numSerie: code,
       });
     });
     return 'Inventario creado';
@@ -33,7 +36,23 @@ export class InventoryService {
 
   async findAll() {
     const inventories = await this.inventoryRepository.find({
-      relations: ['unitMd', 'provider', 'category']
+      relations: ['unitMd', 'provider', 'category'],
+    });
+    if (inventories.length > 0) {
+      return inventories;
+    } else {
+      throw new BadRequestException('No existen inventarios');
+    }
+  }
+
+  async findLocation() {
+    const inventories = await this.inventoryRepository.find({
+      relations: [
+        'responsables',
+        'responsables.ranch',
+        'responsables.ranch.zona',
+        'category',
+      ],
     });
     if (inventories.length > 0) {
       return inventories;
@@ -45,15 +64,15 @@ export class InventoryService {
   async findAllCount() {
     const inventories = await this.inventoryRepository.count();
     const inventoriesMantenimiento = await this.inventoryRepository.count({
-      where: { mantenimieto: true }
+      where: { mantenimieto: true },
     });
     const inventoriesNoMantenimiento = await this.inventoryRepository.count({
-      where: { mantenimieto: false }
+      where: { mantenimieto: false },
     });
     return {
       total: inventories,
       enMantenimiento: inventoriesMantenimiento,
-      enUso: inventoriesNoMantenimiento
+      enUso: inventoriesNoMantenimiento,
     };
   }
 
@@ -61,10 +80,10 @@ export class InventoryService {
     const inventories = await this.inventoryRepository.find({
       where: {
         user: {
-          idUsuario: id
-        }
+          idUsuario: id,
+        },
       },
-      relations: ['unitMd', 'provider', 'category']
+      relations: ['unitMd', 'provider', 'category'],
     });
     if (inventories.length > 0) {
       return inventories;
@@ -82,7 +101,7 @@ export class InventoryService {
   async findByCategory(id: number) {
     const inventories = await this.inventoryRepository.find({
       relations: ['unitMd', 'provider', 'category'],
-      where: { category: { idCategoria: id }, inUse: false }
+      where: { category: { idCategoria: id }, inUse: false },
     });
     if (inventories.length > 0) {
       return inventories;
@@ -95,7 +114,7 @@ export class InventoryService {
     console.log('entro');
     const inventories = await this.inventoryRepository.find({
       where: { mantenimieto: false },
-      relations: ['unitMd', 'provider', 'category']
+      relations: ['unitMd', 'provider', 'category'],
     });
     if (inventories.length > 0) {
       return inventories;
@@ -106,7 +125,7 @@ export class InventoryService {
 
   async findNotRelatedResponsable() {
     const inventories = await this.inventoryRepository.find({
-      relations: ['responsables']
+      relations: ['responsables'],
     });
     if (inventories.length > 0) {
       return inventories;
@@ -118,7 +137,7 @@ export class InventoryService {
   async findByInUse() {
     const inventories = await this.inventoryRepository.find({
       where: { inUse: false },
-      relations: ['unitMd', 'provider', 'category']
+      relations: ['unitMd', 'provider', 'category'],
     });
     if (inventories.length > 0) {
       return inventories;
